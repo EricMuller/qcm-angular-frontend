@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot} from '@angular/router';
+import {Question} from '@app/features/qcm-rest-api/model/question.model';
 import {Page} from '@app/features/qcm-rest-api/services/page';
-import {QuestionService} from '@app/features/qcm-rest-api/services/question.service';
+import {QuestionnaireService} from '@app/features/qcm-rest-api/services/questionnaire.service';
 import {Observable} from 'rxjs';
-
 
 
 @Injectable()
 export class PageQuestionsByQuestionnaireResolver {
 
-  constructor(private questionService: QuestionService) {
+  constructor(private questionService: QuestionnaireService) {
   }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<Page> | Promise<Page> | Page {
-
+  resolve(route: ActivatedRouteSnapshot): Observable<Page<Question>> | Promise<Page<Question>> | Page<Question> {
+    debugger
     return this.questionService.getPageQuestionsByQuestionnaireUuid(route.params.uuid);
   }
 }

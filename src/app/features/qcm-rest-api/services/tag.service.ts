@@ -18,16 +18,16 @@ export class TagService {
     return this.http.post<Tag>(this.endPoint.TAGS, tag);
   }
 
-  public getTags(page?: number, size?: number, sort?: string): Observable<Page> {
+  public getTags(page?: number, size?: number, sort?: string): Observable<Page<Tag>> {
     const requestUrl = `${this.endPoint.TAGS}?size=${size}&page=${page}&sort=${sort}`;
-    return this.http.get<Page>(requestUrl);
+    return this.http.get<Page<Tag>>(requestUrl);
   }
 
-  public getTagsByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page> {
+  public getTagsByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Tag>> {
     const search = btoa(JSON.stringify(criteria));
 
     const requestUrl = `${this.endPoint.TAGS}?size=${size}&page=${page}&sort=${sort}&search=${search}`;
-    return this.http.get<Page>(requestUrl).pipe(publishLast(), refCount());
+    return this.http.get<Page<Tag>>(requestUrl).pipe(publishLast(), refCount());
   }
 
 

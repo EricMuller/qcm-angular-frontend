@@ -30,7 +30,7 @@ export class TagListStore extends SelectStoreAdapter<Tag> implements CriteriaSto
     return undefined;
   }
 
-  getPage(page?: number, size?: number, sort?: string): Observable<Page> {
+  getPage(page?: number, size?: number, sort?: string): Observable<Page<Tag>> {
     const obs = this.backend.getTags(page, size, sort);
     obs.subscribe(
       p => {
@@ -49,7 +49,7 @@ export class TagListStore extends SelectStoreAdapter<Tag> implements CriteriaSto
     }
   }
 
-  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page> {
+  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Tag>> {
     const obs = this.backend.getTagsByCriteria(criteria, page, size, sort);
     obs.subscribe(
       p => {

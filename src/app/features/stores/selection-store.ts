@@ -11,11 +11,11 @@ export class SelectStoreAdapter<T extends Entity> implements ListSelectStore<T> 
 
   private criteriaSubject: BehaviorSubject<Criteria[]> = new BehaviorSubject([]) as BehaviorSubject<Criteria[]>;
 
-  protected page: Page = new Page();
+  protected page: Page<T> = new Page<T>();
 
-  private pageSubject: Subject<Page> = new ReplaySubject<Page>(1);
+  private pageSubject: Subject<Page<T>> = new ReplaySubject<Page<T>>(1);
 
-  readonly page$: Observable<Page> = this.pageSubject.asObservable();
+  readonly page$: Observable<Page<T>> = this.pageSubject.asObservable();
 
   private selectedSubject: BehaviorSubject<any[]> = new BehaviorSubject([]) as BehaviorSubject<T[]>;
 
@@ -66,7 +66,7 @@ export class SelectStoreAdapter<T extends Entity> implements ListSelectStore<T> 
     this.criteriaSizeSubject.next(this.criteria.length);
   }
 
-  publishPage(p: Page) {
+  publishPage(p: Page<T>) {
     this.page = p;
     this.pageSubject.next(this.page);
     this.elementsSubject.next(this.page.content);

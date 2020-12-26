@@ -51,7 +51,7 @@
 
   <div fxlayout [hidden]="filter">
 
-    <app-selectable-list #list [store]="questionListStore"
+    <app-selectable-list #list [store]="questionnaireQuestionListStore"
                          [pageSize]="200"
                          [sortBy]="'id'"
                          (created)="create()">
@@ -73,20 +73,20 @@
       <!--  start mobile-->
       <button fxShow.gt-xs="false" mat-icon-button (click)="filter=!filter;"
               matTooltip="{{'qcm.form.menu.filter' | translate}}">
-        <mat-icon *ngIf="(questionListStore.criteriaSize$ |async ) > 0"
-                  matBadge="{{(questionListStore.criteriaSize$ |async )}}"
+        <mat-icon *ngIf="(questionnaireQuestionListStore.criteriaSize$ |async ) > 0"
+                  matBadge="{{(questionnaireQuestionListStore.criteriaSize$ |async )}}"
                   matBadgeColor="warn"
                   matBadgePosition="above after">filter_list
         </mat-icon>
-        <mat-icon *ngIf="(questionListStore.criteriaSize$ |async ) ==0">filter_list</mat-icon>
+        <mat-icon *ngIf="(questionnaireQuestionListStore.criteriaSize$ |async ) ==0">filter_list</mat-icon>
       </button>
       <!-- end mobile-->
 
       <app-questionnaire-question-nav-list elements-view
-                                           [elements$]="questionListStore.elements$"></app-questionnaire-question-nav-list>
+                                           [elements$]="questionnaireQuestionListStore.elements$"></app-questionnaire-question-nav-list>
 
       <app-questionnaire-question-nav-list selected-view
-                                           [elements$]="questionListStore.selected$"></app-questionnaire-question-nav-list>
+                                           [elements$]="questionnaireQuestionListStore.selected$"></app-questionnaire-question-nav-list>
 
 
     </app-selectable-list>

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {Router} from '@angular/router';
-import {Question} from '@app/features/qcm-rest-api/model/question.model';
+import {Question, QuestionnaireQuestion} from '@app/features/qcm-rest-api/model/question.model';
 import {Tag} from '@app/features/qcm-rest-api/model/tag.model';
 import {QuestionDialogComponent} from '@app/features/question/question-dialog/question-dialog.component';
 import {QuestionnaireQuestionListStore} from '@app/features/stores/questionnaire-question-list-store.service';
@@ -19,9 +19,9 @@ import {Observable} from 'rxjs/internal/Observable';
 export class QuestionnaireQuestionNavListComponent implements OnInit {
 
   @Input()
-  public elements$: Observable<Question[]>;
+  public elements$: Observable<QuestionnaireQuestion[]>;
 
-  constructor(private questionListStore: QuestionnaireQuestionListStore,
+  constructor(private questionnaireQuestionListStore: QuestionnaireQuestionListStore,
               private tagListStore: TagListStore, private router: Router,
               private dialog: MatDialog, private layout: LayoutDialogModule) {
   }
@@ -29,26 +29,26 @@ export class QuestionnaireQuestionNavListComponent implements OnInit {
   ngOnInit() {
   }
 
-  public isSelected(question: Question): boolean {
-    return this.questionListStore.isSelected(question);
+  public isSelected(question: QuestionnaireQuestion): boolean {
+    return this.questionnaireQuestionListStore.isSelected(question);
   }
 
   public swapTag(tag: Tag) {
     this.tagListStore.swapElement(tag);
   }
 
-  public setClickedRow(question: Question) {
-    this.questionListStore.swapElement(question);
+  public setClickedRow(question: QuestionnaireQuestion) {
+    this.questionnaireQuestionListStore.swapElement(question);
   }
 
   public create() {
     this.router.navigate(['/questions/0']);
   }
 
-  public openQuestionDialog(SelectedQuestion: Question) {
+  public openQuestionDialog(selectedQuestion: QuestionnaireQuestion) {
     const config = new MatDialogConfig();
     //
-    config.data = {question: SelectedQuestion};
+    config.data = {question: selectedQuestion};
 
     this.layout.openCenterFull(this.dialog, QuestionDialogComponent, config);
 

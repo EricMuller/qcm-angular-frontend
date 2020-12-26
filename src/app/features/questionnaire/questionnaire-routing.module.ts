@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {QuestionListComponent} from '@app/features/question/question-list/question-list.component';
-import {QuestionnaireQuestionListComponent} from '@app/features/question/questionnaire-questions-list/questionnaire-question-list.component';
+import {QuestionnaireQuestionListComponent} from '@app/features/questionnaire/questionnaire-questions-list/questionnaire-question-list.component';
 import {QuestionnaireDetailComponent} from '@app/features/questionnaire/questionnaire-detail/questionnaire-detail.component';
 import {QuestionnaireFormComponent} from '@app/features/questionnaire/questionnaire-form/questionnaire-form.component';
 import {QuestionnaireListComponent} from '@app/features/questionnaire/questionnaire-list/questionnaire-list.component';

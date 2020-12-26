@@ -2,13 +2,12 @@ import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CategoryDialogComponent} from '@app/features/category/category-dialog/category-dialog.component';
 import {CategoryModule} from '@app/features/category/category.module';
-import {QuestionnaireQuestionNavListComponent} from '@app/features/question/questionnaire-questions-list/question-nav-list/questionnaire-question-nav-list.component';
-import {QuestionnaireQuestionListComponent} from '@app/features/question/questionnaire-questions-list/questionnaire-question-list.component';
 import {QuestionnaireSelectComponent} from '@app/features/question/questionnaire-select/questionnaire-select.component';
+import {QuestionnaireQuestionListComponent} from '@app/features/questionnaire/questionnaire-questions-list/questionnaire-question-list.component';
+import {QuestionnaireQuestionNavListComponent} from '@app/features/questionnaire/questionnaire-questions-list/questionnaire-question-nav-list/questionnaire-question-nav-list.component';
 import {QuestionListStore} from '@app/features/stores/question-list-store.service';
 
 import {QuestionnaireListStore} from '@app/features/stores/questionnaire-list-store.service';
-import {QuestionnaireQuestionListStore} from '@app/features/stores/questionnaire-question-list-store.service';
 import {TagListStore} from '@app/features/stores/tag-list-store.service';
 import {SearchStore} from '@app/features/stores/tag-questionnaire-filter-store-s.service';
 import {TagModule} from '@app/features/tag/tag.module';
@@ -41,7 +40,7 @@ import {QuestionResponsesComponent} from './question-responses/question-response
     QuestionnaireQuestionListComponent, QuestionnaireQuestionNavListComponent, QuestionResponsesComponent],
   entryComponents: [QuestionDialogComponent, CategoryDialogComponent],
   exports: [QuestionListComponent, QuestionnaireQuestionListComponent],
-  providers: [SearchStore, QuestionnaireListStore, TagListStore, QuestionListStore, QuestionnaireQuestionListStore]
+  providers: [SearchStore, QuestionnaireListStore, TagListStore, QuestionListStore]
 })
 export class QuestionModule {
 

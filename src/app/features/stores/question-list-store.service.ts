@@ -40,7 +40,7 @@ export class QuestionListStore extends SelectStoreAdapter<Question> implements C
     return this.questionService.getQuestionByUuid(uuid);
   }
 
-  getPage(page ?: number, size ?: number, sort ?: string): Observable<Page> {
+  getPage(page ?: number, size ?: number, sort ?: string): Observable<Page<Question>> {
     const obs = this.questionService.getQuestions(page, size, sort);
     obs.subscribe(
       p => {
@@ -77,7 +77,7 @@ export class QuestionListStore extends SelectStoreAdapter<Question> implements C
     }
   }
 
-  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<Page> {
+  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<Page<Question>> {
 
     console.log(criteria);
     const obs = this.questionService

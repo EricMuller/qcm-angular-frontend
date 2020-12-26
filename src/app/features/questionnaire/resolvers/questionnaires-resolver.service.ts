@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {Questionnaire} from '@app/features/qcm-rest-api/model/questionnaire.model';
 import {Page} from '@app/features/qcm-rest-api/services/page';
 import {QuestionnaireService} from '@app/features/qcm-rest-api/services/questionnaire.service';
 import {Observable} from 'rxjs';
@@ -14,7 +15,7 @@ export class QuestionnairesResolver {
   }
 
   resolve(route: ActivatedRouteSnapshot,
-          state: RouterStateSnapshot): Observable<Page> | Promise<Page> | Page {
+          state: RouterStateSnapshot): Observable<Page<Questionnaire>> | Promise<Page<Questionnaire>> | Page<Questionnaire> {
     return this.questionnaireService.getQuestionnaires(0, environment.PAGE_SIZE, 'id');
   }
 }

@@ -4,13 +4,12 @@ import {QuestionnaireModel} from '@app/app/state/questionnaire-model';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Question, QuestionnaireQuestion} from '@app/features/qcm-rest-api/model/question.model';
 import {Page} from '@app/features/qcm-rest-api/services/page';
-import {QuestionService} from '@app/features/qcm-rest-api/services/question.service';
 import {QuestionnaireService} from '@app/features/qcm-rest-api/services/questionnaire.service';
 import {SelectStoreAdapter} from '@app/features/stores/selection-store';
 import {CriteriaStore, CrudStore} from '@app/features/stores/store-api';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {mergeMap, publishLast, refCount} from 'rxjs/operators';
+import {mergeMap} from 'rxjs/operators';
 
 
 @Injectable()
@@ -19,7 +18,7 @@ export class QuestionnaireQuestionListStore extends SelectStoreAdapter<Questionn
 
   @Select(AppState.currentQuestionnaire) public currentQuestionnaire$: Observable<QuestionnaireModel>;
 
-  constructor(private questionService: QuestionService, private questionnaireService: QuestionnaireService, private store: Store) {
+  constructor(private questionnaireService: QuestionnaireService, private store: Store) {
     super();
 
     this
@@ -39,7 +38,7 @@ export class QuestionnaireQuestionListStore extends SelectStoreAdapter<Questionn
     throw new Error('Not Implemented');
   }
 
-  getPage(page ?: number, size ?: number, sort ?: string): Observable<Page> {
+  getPage(page ?: number, size ?: number, sort ?: string): Observable<Page<QuestionnaireQuestion>> {
     // const obs = this.questionService.getQuestions(page, size, sort);
     throw new Error(' getPage Not Implemented');
     // const q: QuestionnaireModel = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
@@ -85,10 +84,10 @@ export class QuestionnaireQuestionListStore extends SelectStoreAdapter<Questionn
     // }
   }
 
-  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<Page> {
+  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<Page<QuestionnaireQuestion>> {
 
     const q: QuestionnaireModel = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
-    const obs = this.questionService.getPageQuestionsByQuestionnaireUuid(q.uuid, page , size , sort );
+    const obs = this.questionnaireService.getPageQuestionsByQuestionnaireUuid(q.uuid, page, size, sort);
     obs.subscribe(
       p => {
         this.publishPage(p);

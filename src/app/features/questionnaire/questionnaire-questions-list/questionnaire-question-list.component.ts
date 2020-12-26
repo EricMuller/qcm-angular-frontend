@@ -24,7 +24,7 @@ export class QuestionnaireQuestionListComponent implements OnInit {
 
   @Select(AppState.currentQuestionnaire) public currentQuestionnaire$: Observable<QuestionnaireModel>;
 
-  constructor(public questionListStore: QuestionnaireQuestionListStore,
+  constructor(public questionnaireQuestionListStore: QuestionnaireQuestionListStore,
               private router: Router, private route: ActivatedRoute, private store: Store,
               private questionService: QuestionService) {
     this.route.data.subscribe(data => {
@@ -32,7 +32,7 @@ export class QuestionnaireQuestionListComponent implements OnInit {
       this.store.dispatch(new SetCurrentQuestionnaireAction({uuid: questionnaire.uuid, title: questionnaire.title}));
     });
 
-    questionListStore.selected$.subscribe(value => this.selected = value);
+    questionnaireQuestionListStore.selected$.subscribe(value => this.selected = value);
   }
 
   ngOnInit() {
@@ -49,7 +49,7 @@ export class QuestionnaireQuestionListComponent implements OnInit {
       patch.status = ValidationStatusValidated;
       this.questionService.patchQuestion(value.uuid, patch)
         .subscribe(q => {
-          this.questionListStore.updateElement(q);
+          this.questionnaireQuestionListStore.updateElement(q);
         });
     });
   }

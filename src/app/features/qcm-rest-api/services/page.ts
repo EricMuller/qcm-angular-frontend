@@ -1,9 +1,9 @@
-export class Page {
+export class Page<T> {
   number: number;
   size: number;
   totalElements: number;
   totalPages: number;
-  content: any[];
+  content: T[];
   last: boolean;
   numberOfElements: number;
 }

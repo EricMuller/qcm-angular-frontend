@@ -17,14 +17,14 @@ export interface ListStore<T extends Entity> {
 
   deleteElements(elements: T[]): void;
 
-  getPage(page?: number, size?: number, sort?: string): Observable<Page>;
+  getPage(page?: number, size?: number, sort?: string): Observable<Page<T>>;
 
 }
 
 export interface ListSelectStore<T extends Entity> {
 
   readonly deleted$: Observable<any>;
-  readonly page$: Observable<Page>;
+  readonly page$: Observable<Page<T>>;
   readonly selected$: Observable<T[]>;
   readonly selectedSize$: Observable<number>;
 
@@ -38,7 +38,7 @@ export interface ListSelectStore<T extends Entity> {
 
   unSelectAllElement(): void;
 
-  publishPage(p: Page);
+  publishPage(p: Page<T>);
 
   addPageElement(q: T): Observable<T>;
 
@@ -54,7 +54,7 @@ export interface CriteriaStore<T> extends ListSelectStore<T>, ListStore<T> {
   readonly criteria$: Observable<Criteria[]>;
   readonly criteriaSize$: Observable<number>;
 
-  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page>;
+  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<T>>;
 
   clearCriteria();
 

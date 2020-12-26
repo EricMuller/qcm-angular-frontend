@@ -109,7 +109,7 @@ export class SelectableListComponent<T extends Entity> implements OnInit, AfterC
       }
     );
 
-    this.store.page$.subscribe((page: Page) => {
+    this.store.page$.subscribe((page: Page<T>) => {
         console.log('SelectableListComponent:ngOnInit:page$:' + page.numberOfElements);
       }
     );
@@ -117,7 +117,7 @@ export class SelectableListComponent<T extends Entity> implements OnInit, AfterC
     console.log('SelectableListComponent:ngOnInit');
   }
 
-  private getContentPage(page: Page, cleanBefore ?: boolean) {
+  private getContentPage(page: Page<T>, cleanBefore ?: boolean) {
     this.resultsLength = page.totalElements;
     this.last = page.last;
     if (!cleanBefore) {

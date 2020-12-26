@@ -3,7 +3,7 @@ import {Inject, Injectable} from '@angular/core';
 
 
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
-import {Question} from '@app/features/qcm-rest-api/model/question.model';
+import {Question, QuestionnaireQuestion} from '@app/features/qcm-rest-api/model/question.model';
 import {QCM_API_ENDPOINT_TOKEN, QcmApiEndPoint} from '@app/features/qcm-rest-api/qcm-api-end-point';
 import {Observable} from 'rxjs';
 import {publishLast, refCount} from 'rxjs/operators';
@@ -16,15 +16,15 @@ export class QuestionnaireService {
   constructor(private http: HttpClient, @Inject(QCM_API_ENDPOINT_TOKEN) private endPoint: QcmApiEndPoint) {
   }
 
-  public getQuestionnaires(page?: number, size?: number, sort?: string): Observable<Page> {
+  public getQuestionnaires(page?: number, size?: number, sort?: string): Observable<Page<Questionnaire>> {
     const requestUrl = `${this.endPoint.QUESTIONNAIRES}?size=${size}&page=${page}&sort=${sort}`;
 
     return this.http
-      .get<Page>(requestUrl)
+      .get<Page<Questionnaire>>(requestUrl)
       .pipe(publishLast(), refCount());
   }
 
-  public getQuestionnairesByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page> {
+  public getQuestionnairesByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Questionnaire>> {
 
 
     let params = '';
@@ -36,7 +36,7 @@ export class QuestionnaireService {
     const requestUrl = `${this.endPoint.QUESTIONNAIRES}?size=${size}&page=${page}&sort=${sort}` + params;
 
     return this.http
-      .get<Page>(requestUrl)
+      .get<Page<Questionnaire>>(requestUrl)
       .pipe(publishLast(), refCount());
   }
 
@@ -57,12 +57,12 @@ export class QuestionnaireService {
     return this.http.put<Questionnaire>(this.endPoint.QUESTIONNAIRES, q);
   }
 
-  public getPageQuestionsProjectionByQuestionnaireUuid(questionnaireUuid: string): Observable<Questionnaire[]> {
-
-    return this.http
-      .get<Questionnaire[]>(this.endPoint.QUESTIONNAIRES + questionnaireUuid + '/questions')
-      .pipe(publishLast(), refCount());
-  }
+  // public getPageQuestionsProjectionByQuestionnaireUuid(uuid: string): Observable<Questionnaire[]> {
+  //   debugger
+  //   return this.http
+  //     .get<Questionnaire[]>(this.endPoint.QUESTIONNAIRES + uuid + '/questions')
+  //     .pipe(publishLast(), refCount());
+  // }
 
   public putQuestion(uuid: string, question: Question) {
     return this.http.put<Questionnaire>(this.endPoint.QUESTIONNAIRES + uuid + '/questions', question);
@@ -72,6 +72,15 @@ export class QuestionnaireService {
     return this.http.delete<Questionnaire>(this.endPoint.QUESTIONNAIRES + uuid + '/questions/' + uuidQuestion);
   }
 
+  public getQuestionnaireQuestionByUuid(uuid: string, uuidQuestion: string): Observable<Question> {
+    return this.http.get<QuestionnaireQuestion>(this.endPoint.QUESTIONNAIRES + uuid + '/questions/' + uuidQuestion);
+  }
 
+  public getPageQuestionsByQuestionnaireUuid(uuid: string, page?: number, size?: number, sort?: string):
+    Observable<Page<QuestionnaireQuestion>> {
+
+    return this.http.get<Page<QuestionnaireQuestion>>(`${this.endPoint.QUESTIONNAIRES}${uuid}/questions?size=${size}&page=${page}&sort=${sort}`)
+      .pipe(publishLast(), refCount());
+  }
 
 }

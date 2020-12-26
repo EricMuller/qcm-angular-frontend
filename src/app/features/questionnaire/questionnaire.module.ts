@@ -5,6 +5,7 @@ import {CategoryDialogComponent} from '@app/features/category/category-dialog/ca
 import {CategoryModule} from '@app/features/category/category.module';
 import {QuestionModule} from '@app/features/question/question.module';
 import {QuestionnaireListStore} from '@app/features/stores/questionnaire-list-store.service';
+import {QuestionnaireQuestionListStore} from '@app/features/stores/questionnaire-question-list-store.service';
 import {TagListStore} from '@app/features/stores/tag-list-store.service';
 import {TagModule} from '@app/features/tag/tag.module';
 import {UploadModule} from '@app/features/upload/upload.module';
@@ -15,12 +16,12 @@ import {MaterialModule} from '@app/shared/material/material.module';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+import {QuestionnaireDetailComponent} from './questionnaire-detail/questionnaire-detail.component';
 import {QuestionnaireDialogComponent} from './questionnaire-dialog/questionnaire-dialog.component';
 import {QuestionnaireFormComponent} from './questionnaire-form/questionnaire-form.component';
 import {QuestionnaireListComponent} from './questionnaire-list/questionnaire-list.component';
 import {QuestionnaireNavListComponent} from './questionnaire-list/questionnaire-nav-list/questionnaire-nav-list.component';
 import {SearchStore} from './services/questionnaire-search-store.service';
-import { QuestionnaireDetailComponent } from './questionnaire-detail/questionnaire-detail.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,7 @@ import { QuestionnaireDetailComponent } from './questionnaire-detail/questionnai
     QuestionnaireDetailComponent
   ],
   entryComponents: [QuestionnaireDialogComponent, CategoryDialogComponent],
-  providers: [SearchStore, QuestionnaireListStore, TagListStore
+  providers: [SearchStore, QuestionnaireListStore, TagListStore, QuestionnaireQuestionListStore
     // {
     //   provide: DateAdapter,
     //   useClass: MomentDateAdapter,

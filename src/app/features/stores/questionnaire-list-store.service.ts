@@ -33,7 +33,7 @@ export class QuestionnaireListStore extends SelectStoreAdapter<Questionnaire>
     return this.questionnaireService.getQuestionnaireByUuid(uuid);
   }
 
-  getPage(page?: number, size?: number, sort?: string): Observable<Page> {
+  getPage(page?: number, size?: number, sort?: string): Observable<Page<Questionnaire>> {
     const obs = this.questionnaireService.getQuestionnaires(page, size, sort);
     obs.subscribe(
       p => {
@@ -75,7 +75,7 @@ export class QuestionnaireListStore extends SelectStoreAdapter<Questionnaire>
   }
 
 
-  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page> {
+  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Questionnaire>> {
     console.log(criteria);
     const obs = this.questionnaireService.getQuestionnairesByCriteria(criteria, page, size, sort);
     obs.subscribe(

@@ -20,7 +20,7 @@ export class UploadStore extends SelectStoreAdapter<Upload> implements CriteriaS
     return this.uploadService.getUploadByUuid(uuid);
   }
 
-  getPage(page?: number, size?: number, sort?: string): Observable<Page> {
+  getPage(page?: number, size?: number, sort?: string): Observable<Page<Upload>> {
     const obs = this.uploadService.getUploads(page, size, sort);
     obs.subscribe(
       p => {
@@ -56,7 +56,7 @@ export class UploadStore extends SelectStoreAdapter<Upload> implements CriteriaS
     }
   }
 
-  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page> {
+  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Upload>> {
 
     console.log(criteria);
     const obs = this.uploadService

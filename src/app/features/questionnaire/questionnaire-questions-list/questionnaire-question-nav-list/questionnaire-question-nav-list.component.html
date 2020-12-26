@@ -5,16 +5,16 @@
 
 <!--                 attr.entityId="questionId_{{item.uuid}}">-->
 
-<div *ngFor="let item of elements$ |async as q; index as i">
+<div *ngFor="let question of elements$ |async as q; index as i">
 
-  <div class="p-1" attr.entityId="questionId_{{item.uuid}}">
-    <mat-expansion-panel>
+  <div class="p-1" attr.entityId="questionId_{{question.uuid}}">
+    <mat-expansion-panel hideToggle>
 
       <mat-expansion-panel-header>
 
-        <button mat-icon-button matListAvatar (click)="setClickedRow(item)">
-          <mat-icon matListIcon *ngIf="!isSelected(item)">question_answer</mat-icon>
-          <mat-checkbox *ngIf="isSelected(item)" matListAvatar [checked]="isSelected(item)"></mat-checkbox>
+        <button mat-icon-button matListAvatar (click)="setClickedRow(question)">
+          <mat-icon matListIcon *ngIf="!isSelected(question)">question_answer</mat-icon>
+          <mat-checkbox *ngIf="isSelected(question)" matListAvatar [checked]="isSelected(question)"></mat-checkbox>
         </button>
 
         <div style="overflow: hidden">
@@ -26,7 +26,7 @@
           <div>
             <p class="cursor-pointer"
                                 style="overflow: hidden;white-space:nowrap;margin-bottom: 1px"
-                                matTooltip="{{item.question}}">{{item.position}}.{{item.question}} </p>
+                                matTooltip="{{question.question}}">{{question.position}}.{{question.question}} </p>
           </div>
           <div>
             <!--        <p style="overflow: hidden;white-space:nowrap;margin-bottom: 1px" class="md-caption">-->
@@ -40,14 +40,14 @@
 
 
         <p fxShow.xs="false" style="overflow: hidden;white-space:nowrap;margin-bottom: 1px" class="md-caption">
-          {{item.dateCreation | date:'dd/MM/yy HH:mm'}}
+          {{question.dateCreation | date:'dd/MM/yy HH:mm'}}
         </p>
-        <span fxShow.xs="false" *ngFor="let tag of item.tags" class="label label-info list-item-tag"
+        <span fxShow.xs="false" *ngFor="let tag of question.tags" class="label label-info list-item-tag"
               (click)="swapTag(tag)">{{tag.libelle}}</span>
-        <span fxShow.xs="false" *ngIf="item.status == 'TO_BE_VALIDATED'"
-              class="label label-grey">{{'qcm.status.id.' + item.status |translate }}</span>
-        <span fxShow.xs="false" *ngIf="item.status == 'DRAFT'"
-              class="label label-grey">{{'qcm.status.id.' + item.status |translate }}</span>
+        <span fxShow.xs="false" *ngIf="question.status == 'TO_BE_VALIDATED'"
+              class="label label-grey">{{'qcm.status.id.' + question.status |translate }}</span>
+        <span fxShow.xs="false" *ngIf="question.status == 'DRAFT'"
+              class="label label-grey">{{'qcm.status.id.' + question.status |translate }}</span>
 
 
       </mat-expansion-panel-header>
@@ -57,7 +57,7 @@
 
 
 
-        <app-question-responses [question]="item"> </app-question-responses>
+        <app-question-responses [question]="question"> </app-question-responses>
 
 
         <button mat-icon-button matTooltip="More actions" [matMenuTriggerFor]="questionMenu">
@@ -66,13 +66,13 @@
 
         <!-- line menu -->
         <mat-menu #questionMenu="matMenu" yPosition="below">
-          <button mat-menu-item [routerLink]="['/questions/'+ item.uuid ]">
+          <button mat-menu-item [routerLink]="['/questions/'+ question.uuid ]">
             <mat-icon>details</mat-icon>
             Details
           </button>
         </mat-menu>
 
-        <button mat-flat-button matTooltip="Edit"  (click)="openQuestionDialog(item)" style="float: right">Edit</button>
+        <button mat-flat-button matTooltip="Edit" (click)="openQuestionDialog(question)" style="float: right">Edit</button>
 
       </ng-template>
 

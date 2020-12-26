@@ -115,16 +115,16 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
 
     const q: QuestionnaireModel = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
 
-    if (q.uuid) {
-      this.questionnaireService.putQuestion(q.uuid, data)
-        .subscribe(
-          () => {
-            this.notifierService
-              .notifySuccess(this.translateService.instant('qcm.question.form.messages.questionAdded') + q.title, 2000);
-            this.router.navigate(['/questions/' + this.question.uuid]);
-          }
-        );
-    }
+    // if (q.uuid) {
+    //   this.questionnaireService.putQuestion(q.uuid, data)
+    //     .subscribe(
+    //       () => {
+    //         this.notifierService
+    //           .notifySuccess(this.translateService.instant('qcm.question.form.messages.questionAdded') + q.title, 2000);
+    //         this.router.navigate(['/questions/' + this.question.uuid]);
+    //       }
+    //     );
+    // }
     // this.router.navigate(['/questions/' + this.question.uuid]);
     this.cancel.emit(q.uuid);
   }

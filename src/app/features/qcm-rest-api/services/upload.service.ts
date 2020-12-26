@@ -21,16 +21,16 @@ export class UploadService {
     return this.http.put<Upload>(this.endPoint.UPLOADS, upload);
   }
 
-  public getUploads(page?: number, size?: number, sort?: string): Observable<Page> {
+  public getUploads(page?: number, size?: number, sort?: string): Observable<Page<Upload>> {
     const requestUrl = `${this.endPoint.UPLOADS}?size=${size}&page=${page}&sort=${sort}`;
-    return this.http.get<Page>(requestUrl);
+    return this.http.get<Page<Upload>>(requestUrl);
   }
 
   public deleteUploadByUuid(uuid: string) {
     return this.http.delete<Upload>(this.endPoint.UPLOADS + uuid);
   }
 
-  public getUploadByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page> {
+  public getUploadByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Upload>> {
     console.log(criteria);
     let params = '';
     if (criteria) {
@@ -39,7 +39,7 @@ export class UploadService {
       }
     }
     const requestUrl = `${this.endPoint.UPLOADS}?size=${size}&page=${page}&sort=${sort}` + params;
-    return this.http.get<Page>(requestUrl);
+    return this.http.get<Page<Upload>>(requestUrl);
   }
 
   public getUploadByUuid(uuid: string): Observable<Upload> {
