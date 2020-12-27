@@ -3,7 +3,7 @@
 
   <mat-list-item class="list mat-elevation-z2 list-item"
                  attr.entityId="questionnaireId_{{questionnaire.uuid}}"
-                 *ngFor="let questionnaire of elements$ | async as q; index as i">
+                 *ngFor="let questionnaire of elements$ | async as q; index as i" [routerLink]="['/questionnaires/'+ questionnaire.uuid ]">
 
     <button mat-icon-button matListAvatar (click)="setClickedRow(questionnaire)">
       <mat-icon matListIcon *ngIf="!isSelected(questionnaire)">question_answer</mat-icon>
@@ -13,7 +13,7 @@
 
     <div style="overflow: hidden">
       <div>
-        <p class="cursor-pointer" [routerLink]="['/questionnaires/'+ questionnaire.uuid ]"
+        <p class="cursor-pointer"
          matTooltip="{{questionnaire.title}}" style="overflow: hidden;white-space:nowrap;margin-bottom: 1px">
         {{questionnaire.title}}</p>
       </div>

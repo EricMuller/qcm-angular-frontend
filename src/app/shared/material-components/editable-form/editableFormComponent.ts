@@ -54,9 +54,12 @@ export abstract class EditableFormComponent<T, K> implements OnInit {
 
   protected enableForm() {
     for (const control in this.form.controls) {
-      this.form.controls[control].enable();
+      if (this.form.controls.hasOwnProperty(control)) {
+        this.form.controls[control].enable();
+      }
     }
   }
+
 
   protected beforeSaveForm(t: T): T {
     return t;
@@ -83,13 +86,13 @@ export abstract class EditableFormComponent<T, K> implements OnInit {
 
   protected abstract createForm(): void;
 
-  protected abstract onSaveForm(t: T) ;
+  protected abstract onSaveForm(t: T)  ;
 
-  protected abstract onDeleteForm(t: T) ;
+  protected abstract onDeleteForm(t: T)  ;
 
-  // onChanges(): void {
-  //   this.questionForm.valueChanges.subscribe(val => {
-  //     console.log(val);
-  //   });
-  // }
+// onChanges(): void {
+//   this.questionForm.valueChanges.subscribe(val => {
+//     console.log(val);
+//   });
+// }
 }

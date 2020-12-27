@@ -39,7 +39,7 @@ import {QuestionResponsesComponent} from './question-responses/question-response
     QuestionNavListComponent, QuestionFormComponent, QuestionnaireSelectComponent,
     QuestionnaireQuestionListComponent, QuestionnaireQuestionNavListComponent, QuestionResponsesComponent],
   entryComponents: [QuestionDialogComponent, CategoryDialogComponent],
-  exports: [QuestionListComponent, QuestionnaireQuestionListComponent],
+  exports: [QuestionListComponent, QuestionnaireQuestionListComponent, QuestionFormComponent],
   providers: [SearchStore, QuestionnaireListStore, TagListStore, QuestionListStore]
 })
 export class QuestionModule {

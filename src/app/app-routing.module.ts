@@ -40,7 +40,7 @@ const routes: Routes = [
   {
     path: 'questionnaires',
     loadChildren: () => import('./features/questionnaire/questionnaire-routing.module').then(m => m.QuestionnaireRoutingModule),
-    data: {preload: true, breadcrumb: null},
+    data: {preload: true, breadcrumb: 'Mes questionnaires'},
   },
   {
     path: 'settings',

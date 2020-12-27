@@ -1,16 +1,13 @@
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatSidenav} from '@angular/material';
 import {NavigationExtras, Router} from '@angular/router';
 import {AppState} from '@app/app/state/app-state.service';
-import {ClearCurrentQuestionnaireAction} from '@app/app/state/clear-current-questionnaire-action';
 import {NavigationModel} from '@app/app/state/navigation-model';
-import {SetCurrentQuestionnaireAction} from '@app/app/state/set-current-questionnaire-action';
 import {KeycloakGuard} from '@app/core/auth/keycloak.guard';
 import {TranslateService} from '@ngx-translate/core';
-import {Select, Store} from '@ngxs/store';
+import {Select} from '@ngxs/store';
 import {Observable, of, Subscription} from 'rxjs';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav-layout',
@@ -42,9 +39,9 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
 
   language$: Observable<string>;
 
+  /* main menu */
   @Select(AppState.navigation) public navigation$: Observable<NavigationModel[]>;
-
-  @Select(AppState.breadcrumb) public breadcrumb$: Observable<NavigationModel[]>;
+  @Select(AppState.currentPageTitle) public currentPageTitle$: Observable<string>;
 
   // navigation = [
   //   {link: '/home', label: 'menu.about'},
@@ -58,10 +55,12 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
   // ];
 
   isHandset$: Observable<boolean>;
+  isHandset: boolean;
+  mode = 'side';
+
 
   constructor(private breakpointObserver: BreakpointObserver, private router: Router,
-              public translate: TranslateService, private keycloakGuardService: KeycloakGuard,
-              private store: Store) {
+              public translate: TranslateService, private keycloakGuardService: KeycloakGuard) {
   }
 
   public login(event): void {
@@ -69,25 +68,62 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
 
   ngOnInit(): void {
 
-
     console.log('SideNavLayoutComponent.ngOnInit ok');
+    this.breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small,
+      Breakpoints.Medium,
+      Breakpoints.Large,
+      Breakpoints.XLarge
+    ]).subscribe((state: BreakpointState) => {
+
+      if (state.breakpoints[Breakpoints.XSmall]) {
+        console.log('Matches XSmall viewport');
+        this.isHandset = true;
+        this.mode = 'over';
+        this.opened = false;
+        // this.leftSidenav.toggle();
+      }
+      if (state.breakpoints[Breakpoints.Small]) {
+        this.isHandset = true;
+        this.mode = 'over';
+        this.opened = false;
+        console.log('Matches Small viewport');
+      }
+      if (state.breakpoints[Breakpoints.Medium]) {
+        this.isHandset = false;
+        this.mode = 'side';
+        this.opened = true;
+        console.log('Matches Medium  viewport');
+      }
+      if (state.breakpoints[Breakpoints.Large]) {
+        this.isHandset = false;
+        this.mode = 'side';
+        this.opened = true;
+        console.log('Matches Large viewport');
+      }
+      if (state.breakpoints[Breakpoints.XLarge]) {
+        this.isHandset = false;
+        this.mode = 'side';
+        this.opened = true;
+        console.log('Matches XLarge viewport');
+      }
+    });
+
   }
 
   ngAfterContentInit(): void {
-    this.isHandset$ = this.breakpointObserver.observe([Breakpoints.Handset])
-      .pipe(
-        map(
-          result => {
-            console.log(result);
-            return result.matches;
-          })
-      );
-    console.log('SideNavLayoutComponent.ngAfterContentInit ok');
+    // this.isHandset$ = this.breakpointObserver.observe([Breakpoints.Handset])
+    //   .pipe(
+    //     map(
+    //       result => {
+    //         console.log(result);
+    //         return result.matches;
+    //       })
+    //   );
+    // console.log('SideNavLayoutComponent.ngAfterContentInit ok');
   }
 
-  clear() {
-    this.store.dispatch(new ClearCurrentQuestionnaireAction());
-  }
 
   checkScreen(): void {
     // this._ngZone.run(() => {
@@ -117,7 +153,11 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   routeLink(commands: any[], extras?: NavigationExtras) {
-    this.leftSidenav.toggle();
+    // this.leftSidenav.toggle();
+    if (this.isHandset) {
+      this.opened = false;
+      this.leftSidenav.toggle();
+    }
     this.router.navigate(commands, extras);
   }
 

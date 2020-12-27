@@ -14,6 +14,8 @@ import {SelectableListComponent} from '@app/shared/material-components/selectabl
 import {SideNavLayoutComponent} from '@app/shared/material-components/side-nav-layout/sidenav-layout.component';
 import {MaterialModule} from '@app/shared/material/material.module';
 import {TranslateModule} from '@ngx-translate/core';
+import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
+import {PageLayoutComponent} from './page-layout/page-layout.component';
 
 @NgModule({
   imports: [
@@ -26,9 +28,9 @@ import {TranslateModule} from '@ngx-translate/core';
     LayoutDialogModule,
     TranslateModule.forChild()
   ],
-  declarations: [SelectableListComponent, SideNavLayoutComponent, LoginMenuComponent]
+  declarations: [SelectableListComponent, SideNavLayoutComponent, LoginMenuComponent, BreadcrumbComponent, PageLayoutComponent]
   , exports: [SelectableListComponent, SideNavLayoutComponent, LoginMenuComponent,
-    FabMenuComponent, FabToggleComponent, FabButtonComponent]
+    FabMenuComponent, FabToggleComponent, FabButtonComponent, PageLayoutComponent]
 })
 export class MaterialComponentsModule {
 }

@@ -64,9 +64,9 @@
 
   "qcm.question.list.createdAt": "Crée le ",
 
-  "qcm.questionnaire.question.list.title": "Les Questions du questionnaire",
-  "qcm.questionnaire.question.list.title.short": "Les questions du questionnaire",
-  "qcm.questionnaire.question.selected.title" : "Liste des Questions selectionnée(s) du questionnaire",
+  "qcm.questionnaire.question.list.title": "Les Questions",
+  "qcm.questionnaire.question.list.title.short": "Les questions",
+  "qcm.questionnaire.question.selected.title" : "Les Questions selectionnée(s) ",
 
   "qcm.questionnaire.question.selected.validate" : "Valider les questions selectionées",
 

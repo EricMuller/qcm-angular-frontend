@@ -1,4 +1,6 @@
-<div class="page-center" fxLayout='column' fxFlex="100%">
+<app-page-layout>
+
+  <!--<div class="page-center" fxLayout='column' fxFlex="100%">-->
 
   <!-- start desktop -->
   <button fxShow.xs="false" mat-mini-fab (click)="deleteForm()" [hidden]="!edition" class="fab-mini-bottom-up2"
@@ -27,14 +29,16 @@
     <mat-toolbar-row>
 
       <!-- start mobile -->
-<!--      <button fxShow.gt-xs="false" mat-icon-button [routerLink]="['/questionnaires/list']">-->
-<!--        <mat-icon [hidden]="edition">arrow_back</mat-icon>-->
-<!--        <mat-icon [hidden]="!edition">close</mat-icon>-->
-<!--      </button>-->
+      <!--      <button fxShow.gt-xs="false" mat-icon-button [routerLink]="['/questionnaires/list']">-->
+      <!--        <mat-icon [hidden]="edition">arrow_back</mat-icon>-->
+      <!--        <mat-icon [hidden]="!edition">close</mat-icon>-->
+      <!--      </button>-->
       <!-- end mobile -->
 
-      <div *ngIf="questionnaire.uuid  && !edition">{{'qcm.questionnaire.view.title' | translate}}{{questionnaire.title}}</div>
-      <div *ngIf="questionnaire.uuid && edition">{{'qcm.questionnaire.edit.title' | translate}} {{questionnaire.title}}</div>
+      <div
+        *ngIf="questionnaire.uuid  && !edition">{{'qcm.questionnaire.view.title' | translate}}{{questionnaire.title}}</div>
+      <div
+        *ngIf="questionnaire.uuid && edition">{{'qcm.questionnaire.edit.title' | translate}} {{questionnaire.title}}</div>
       <div *ngIf="!questionnaire.uuid">{{'qcm.questionnaire.create.title' | translate}}</div>
 
       <div class="spacer"></div>
@@ -54,9 +58,14 @@
               matTooltip="{{'qcm.form.menu.deleteAll' | translate }}" color="accent">
         <mat-icon>delete</mat-icon>
       </button>
+
       <!-- end mobile -->
 
       <!--<ng-content select="[menu-buttons]"></ng-content>-->
+      <button mat-icon-button (click)="viewQuestionsByQuestionnaire()" matTooltip="{{'qcm.questionnaire.menu.questions.list' |translate}}">
+        <mat-icon>list</mat-icon>
+      </button>
+
       <button mat-icon-button matTooltip="More actions" [matMenuTriggerFor]="questionnaireMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
@@ -67,10 +76,7 @@
           <mat-icon>add</mat-icon>
           {{'qcm.questionnaire.menu.category.create' |translate}}
         </button>
-        <button mat-menu-item (click)="viewQuestionsByQuestionnaire()">
-          <mat-icon>list</mat-icon>
-          {{'qcm.questionnaire.menu.questions.list' |translate}}
-        </button>
+
       </mat-menu>
 
     </mat-toolbar-row>
@@ -114,7 +120,7 @@
         <mat-form-field class="chip-tags" fxFlex="100%" fxFlex.gt-xs="90%">
           <mat-chip-list #chipList>
             <mat-chip *ngFor="let tag of tags.controls; index as i" [selectable]="edition"
-                      [removable]="edition"  (removed)="removeChip(i)">
+                      [removable]="edition" (removed)="removeChip(i)">
               {{tag.get('libelle')?.value}}
               <mat-icon matChipRemove *ngIf="edition">cancel</mat-icon>
             </mat-chip>
@@ -139,7 +145,7 @@
     </div>
 
     <!--    colonne 2 -->
-    <div fxLayout='column' fxFlex="100%" fxFlex.gt-xs="20%">
+    <div fxLayout='column' fxFlex="100%" fxFlex.gt-xs="30%">
       <!--      <div  fxFlex="100%" fxFlex.gt-xs="50%">-->
       <mat-form-field *ngIf="questionnaire.uuid">
         <input matInput [value]="form.get('dateCreation').value | date: 'dd/MM/yyyy HH:mm:ss' "
@@ -157,7 +163,7 @@
                placeholder="{{'qcm.questionnaire.form.input.version.placeholder' |translate}}" readonly>
       </mat-form-field>
 
-<!--      <span fxFlex="50%" fxFlex.gt-xs="40%"  class="mat-label" >version {{questionnaire.version}} </span>-->
+      <!--      <span fxFlex="50%" fxFlex.gt-xs="40%"  class="mat-label" >version {{questionnaire.version}} </span>-->
 
       <!--status -->
       <div fxLayout='row'>
@@ -172,8 +178,8 @@
 
       </div>
 
-      <mat-checkbox  formControlName="published"  matInput *ngIf="questionnaire.uuid">
-                {{'qcm.questionnaire.form.input.published.placeholder' |translate}}
+      <mat-checkbox formControlName="published" matInput *ngIf="questionnaire.uuid">
+        {{'qcm.questionnaire.form.input.published.placeholder' |translate}}
       </mat-checkbox>
 
 
@@ -192,5 +198,5 @@
              maxlength="500">
   </md-editor>
 
-</div>
 
+</app-page-layout>

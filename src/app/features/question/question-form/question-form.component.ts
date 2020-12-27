@@ -43,6 +43,7 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
   public good: boolean;
 
   @Output() cancel = new EventEmitter<string>();
+  @Output() save = new EventEmitter<string>();
 
 
   constructor(protected   crudStore: QuestionListStore,
@@ -126,7 +127,7 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
     //     );
     // }
     // this.router.navigate(['/questions/' + this.question.uuid]);
-    this.cancel.emit(q.uuid);
+    this.save.emit(q.uuid);
   }
 
   public onSelectResponse(event) {

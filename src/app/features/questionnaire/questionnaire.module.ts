@@ -21,6 +21,7 @@ import {QuestionnaireDialogComponent} from './questionnaire-dialog/questionnaire
 import {QuestionnaireFormComponent} from './questionnaire-form/questionnaire-form.component';
 import {QuestionnaireListComponent} from './questionnaire-list/questionnaire-list.component';
 import {QuestionnaireNavListComponent} from './questionnaire-list/questionnaire-nav-list/questionnaire-nav-list.component';
+import {QuestionnaireQuestionDialogComponent} from './questionnaire-question-dialog/questionnaire-question-dialog.component';
 import {SearchStore} from './services/questionnaire-search-store.service';
 
 @NgModule({
@@ -43,9 +44,10 @@ import {SearchStore} from './services/questionnaire-search-store.service';
     QuestionnaireDialogComponent,
     QuestionnaireNavListComponent,
     QuestionnaireFormComponent,
-    QuestionnaireDetailComponent
+    QuestionnaireDetailComponent,
+    QuestionnaireQuestionDialogComponent
   ],
-  entryComponents: [QuestionnaireDialogComponent, CategoryDialogComponent],
+  entryComponents: [QuestionnaireDialogComponent, CategoryDialogComponent, QuestionnaireQuestionDialogComponent],
   providers: [SearchStore, QuestionnaireListStore, TagListStore, QuestionnaireQuestionListStore
     // {
     //   provide: DateAdapter,

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Question, QuestionnaireQuestion} from '@app/features/qcm-rest-api/model/question.model';
 import {Tag} from '@app/features/qcm-rest-api/model/tag.model';
 import {QuestionDialogComponent} from '@app/features/question/question-dialog/question-dialog.component';
+import {QuestionnaireQuestionDialogComponent} from '@app/features/questionnaire/questionnaire-question-dialog/questionnaire-question-dialog.component';
 import {QuestionnaireQuestionListStore} from '@app/features/stores/questionnaire-question-list-store.service';
 
 import {TagListStore} from '@app/features/stores/tag-list-store.service';
@@ -50,7 +51,7 @@ export class QuestionnaireQuestionNavListComponent implements OnInit {
     //
     config.data = {question: selectedQuestion};
 
-    this.layout.openCenterFull(this.dialog, QuestionDialogComponent, config);
+    this.layout.openCenterFull(this.dialog, QuestionnaireQuestionDialogComponent, config);
 
   }
 }

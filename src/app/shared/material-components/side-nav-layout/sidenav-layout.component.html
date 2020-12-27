@@ -1,11 +1,16 @@
 <mat-sidenav-container class="sidenav-container"  >
 
   <!-- LEFT SIDE NAV MENU /*[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"*/-->
-  <mat-sidenav class="sidenav" #leftsidenav [mode]="'push'">
+  <mat-sidenav class="sidenav" #leftsidenav [mode]="mode"  [opened]="opened">
+
+
 
     <mat-toolbar color="primary">
+<!--      <button mat-icon-button class="td-menu-button" (click)="leftsidenav.toggle()" matTooltip="Main menu">-->
+<!--        <mat-icon>menu</mat-icon>-->
+<!--      </button>-->
       <a routerLink="/">
-        <div style="padding-right: 5px"><img src="/assets/images/questionnaire/QCM-0-red.png" width="32"></div>
+        <div style="padding-right: 5px"><img src="/assets/images/questionnaire/QCM-0-red.png" width="32" (click)="leftsidenav.toggle()"></div>
       </a> {{appName}}.
     </mat-toolbar>
 
@@ -16,8 +21,9 @@
 
     <mat-nav-list>
 
-      <a mat-list-item *ngFor="let menu of breadcrumb$ | async" [routerLinkActive]="['active']"
-         routerLink="{{menu.link}}" (click)="routeLink(menu.link)">{{menu.label | translate }}</a>
+<!--      <a mat-list-item *ngFor="let menu of breadcrumb$ | async" [routerLinkActive]="['active']"-->
+<!--         routerLink="{{menu.link}}" (click)="routeLink(menu.link)">{{menu.label | translate }}</a>-->
+
     </mat-nav-list>
 
   </mat-sidenav>
@@ -28,20 +34,25 @@
     <!-- TOP TOOL BAR MENU-->
     <mat-toolbar class="toolbar" color="primary" id="sidenav-layout-toolbar">
       <mat-toolbar-row>
-        <div *ngIf="(isHandset$ | async)">
+        <div *ngIf="!opened">
           <button mat-icon-button class="td-menu-button" (click)="leftsidenav.toggle()" matTooltip="Main menu">
             <mat-icon>menu</mat-icon>
           </button>
         </div>
+<!--        <a routerLink="/" *ngIf="isHandset">-->
+<!--          <div style="padding-right: 5px"><img src="/assets/images/questionnaire/QCM-0-red.png" width="32"></div>-->
+<!--        </a>
+       {{appName}}.-->
+      <div *ngIf="!opened">
 
-        <a routerLink="/" *ngIf="!(isHandset$ | async)">
-          <div style="padding-right: 5px"><img src="/assets/images/questionnaire/QCM-0-red.png" width="32"></div>
-        </a>{{appName}}.
+        {{appName}}.
+      </div>
 
-        <div class="spacer"></div>
+        <div  fxFlex style="text-align: center"> {{currentPageTitle$ | async}}</div>
+<!--        <div class="spacer"></div>-->
 
         <div *ngIf="isLoggedIn()" id="sidenav-layout-side-menu">
-          <div *ngIf="!(isHandset$ | async)">
+          <div *ngIf="isHandset$">
             <button mat-button class="nav-button" *ngFor="let menu of navigation$ | async"
                     [routerLinkActive]="['active']"
                     routerLink="{{menu.link}}">{{menu.label | translate }}
@@ -60,20 +71,24 @@
       </mat-select>
       </span>
       </mat-toolbar-row>
-<!--      <mat-toolbar-row>-->
-<!--        <div *ngIf="isLoggedIn() && ( breadcrumb$ | async)?.length > 0 " id="sidenav-layout-toolbar2">-->
-<!--          &lt;!&ndash;        <div *ngIf="!(isHandset$ | async)">&ndash;&gt;-->
-<!--          <button mat-icon-button (click)="clear()">-->
-<!--            <mat-icon>close</mat-icon>-->
-<!--          </button>-->
-<!--          <button mat-flat-button class="nav-button" *ngFor="let menu of breadcrumb$ | async"-->
-<!--                  [routerLinkActive]="['active']"-->
-<!--                  routerLink="{{menu.link}}">{{menu.label | translate }}-->
-<!--          </button>-->
-<!--          &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--        </div>-->
+<!--      <mat-toolbar-row >-->
+<!--      -->
 <!--      </mat-toolbar-row>-->
     </mat-toolbar>
+
+    <app-breadcrumb></app-breadcrumb>
+<!--      <div *ngIf="isLoggedIn() && ( breadcrumb$ | async)?.length > 0 " id="sidenav-layout-toolbar2">-->
+<!--        &lt;!&ndash;        <div *ngIf="!(isHandset$ | async)">&ndash;&gt;-->
+<!--        <button mat-icon-button (click)="clear()">-->
+<!--          <mat-icon>close</mat-icon>-->
+<!--        </button>-->
+<!--        <button mat-flat-button class="nav-button" *ngFor="let menu of breadcrumb$ | async"-->
+<!--                [routerLinkActive]="['active']"-->
+<!--                routerLink="{{menu.link}}">{{menu.label | translate }}-->
+<!--        </button>-->
+<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--      </div>-->
+
 
     <!-- TOP SELECTED -->
 <!--        <mat-toolbar *ngIf="isLoggedIn() && ( breadcrumb$ | async)?.length > 0 " class="toolbar" id="sidenav-layout-toolbar2">-->

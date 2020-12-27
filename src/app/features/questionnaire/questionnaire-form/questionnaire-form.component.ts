@@ -174,8 +174,8 @@ export class QuestionnaireFormComponent extends EditableFormComponent<Questionna
   public viewQuestionsByQuestionnaire() {
     // this.openCategoryDialog();
     // this.questionnaireStore.unSelectAllElement();
-    this.questionnaireListStore.selectElement(this.questionnaire, true);
-    this.router.navigate(['/questions/list']);
+    // this.questionnaireListStore.selectElement(this.questionnaire, true);
+    this.router.navigate(['/questionnaires/' + this.questionnaire.uuid + '/questions']);
   }
 
   public nbSelectedQuestion(): number {

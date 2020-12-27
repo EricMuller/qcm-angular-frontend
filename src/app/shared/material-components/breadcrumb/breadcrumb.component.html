@@ -1,0 +1,27 @@
+<!--<div *ngIf="isLoggedIn() && ( breadcrumb$ | async)?.length > 0 " id="sidenav-layout-toolbar2">-->
+<!--  &lt;!&ndash;        <div *ngIf="!(isHandset$ | async)">&ndash;&gt;-->
+<!--  <button mat-icon-button (click)="clear()">-->
+<!--    <mat-icon>close</mat-icon>-->
+<!--  </button>-->
+<!--  <button mat-flat-button class="nav-button" *ngFor="let menu of breadcrumb$ | async"-->
+<!--          [routerLinkActive]="['active']"-->
+<!--          routerLink="{{menu.link}}">{{menu.label | translate }}-->
+<!--  </button>-->
+<!--  &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--</div>-->
+
+
+<ol class="breadcrumb" *ngIf="isLoggedIn() && ( breadcrumb$ | async)?.length > 0 ">
+  <li *ngFor="let breadcrumb of  breadcrumb$ | async">
+    <span routerLink="{{breadcrumb.link}}"  [routerLinkActive]="['active']"> {{breadcrumb.label | translate }}  </span>
+  </li>
+</ol>
+
+<!--{{breadcrumbs}}-->
+<!--<ol class="breadcrumb">-->
+<!--  <li *ngFor="let breadcrumb of breadcrumbs">-->
+<!--    <span [routerLink]="breadcrumb.url" routerLinkActive="router-link-active">-->
+<!--      {{ breadcrumb.label }}-->
+<!--    </span>-->
+<!--  </li>-->
+<!--</ol>-->

@@ -9,15 +9,19 @@ import {Action, Selector, State, StateContext} from '@ngxs/store';
 
 const navigation = [
   {link: '/home', label: 'menu.about'},
-  {link: '/questionnaires/list', label: 'menu.questionnaires'},
+  {link: 'questionnaires/', label: 'menu.questionnaires'},
   {link: '/questions/list', label: 'menu.questions'},
 ];
+
+const pageNavigation = [];
 
 export class AppStateModel {
   currentQuestionnaire: QuestionnaireModel;
   currentQuestion: QuestionModel;
   navigation: NavigationModel[];
+  pageNavigation: NavigationModel[];
   breadcrumb: NavigationModel[];
+  currentPageTitle: string;
 }
 
 @State<AppStateModel>({
@@ -25,6 +29,8 @@ export class AppStateModel {
   defaults: {
     currentQuestionnaire: {uuid: '', title: ''},
     currentQuestion: {uuid: '', title: ''},
+    pageNavigation,
+    currentPageTitle: '',
     navigation: [
       ...navigation,
       {link: '/upload/', label: 'menu.upload'},
@@ -51,13 +57,25 @@ export class AppState {
     return state.breadcrumb;
   }
 
+  @Selector()
+  static pageNavigation(state: AppStateModel) {
+    return state.pageNavigation;
+  }
+
+
+  @Selector()
+  static currentPageTitle(state: AppStateModel) {
+    return state.currentPageTitle;
+  }
+
   @Action(ClearCurrentQuestionnaireAction)
   clearCurrentQuestionnaireAction({getState, patchState}: StateContext<AppStateModel>) {
     const state = getState();
     patchState({
       ...state,
       currentQuestionnaire: null,
-      breadcrumb: []
+      breadcrumb: [],
+      pageNavigation: []
     });
   }
 
@@ -68,9 +86,14 @@ export class AppState {
     patchState({
       ...state,
       currentQuestionnaire: payload,
-      breadcrumb: [{link: '/questionnaires/' + payload.uuid, label: payload.title},
-        {link: '/questionnaires/' + payload.uuid + '/questions', label: 'Questions'}
-      ]
+      breadcrumb: [
+        {link: '/questionnaires/', label: ' Mes Questionnaires'},
+        {link: '/questionnaires/' + payload.uuid, label: payload.title},
+      ],
+      pageNavigation: [
+        {link: '/questionnaires/' + payload.uuid + '/questions', label: 'Les questions'},
+      ],
+      currentPageTitle: payload.title
     });
   }
 

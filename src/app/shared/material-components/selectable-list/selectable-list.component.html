@@ -1,4 +1,4 @@
-<div fxlayout="column" fxFlex="95%">
+<div fxlayout="column" fxFlex="100%">
 
 
   <div class="selectable-list-container">
@@ -25,6 +25,10 @@
                 *ngIf="modeSelection$ |async" (click)="swapSelectedMode()">
           <mat-icon>visibility</mat-icon>
         </button>
+
+        <mat-paginator fxHide fxShow.gt-xs="true" #paginator (page)="onPaginateChange($event)" [hidden]="totalElements <= pageSize || isSelectedMode() "
+                       [length]="totalElements" [pageSize]="pageSize" [showFirstLastButtons]="true"
+                       hidePageSize="true" itemsPerPageLabel=''></mat-paginator>
 
         <!--  start mobile -->
         <button fxShow.gt-xs="false" mat-icon-button (click)="refresh(true);"
@@ -56,9 +60,7 @@
       </mat-toolbar-row>
 
     </mat-toolbar>
-    <mat-paginator #paginator (page)="onPaginateChange($event)" [hidden]="totalElements <= pageSize || isSelectedMode() "
-                   [length]="totalElements" [pageSize]="pageSize" [showFirstLastButtons]="true"
-                   hidePageSize="true" itemsPerPageLabel=''></mat-paginator>
+
 
     <ng-content *ngIf="!isSelectedMode()" select="[elements-view]"></ng-content>
 
