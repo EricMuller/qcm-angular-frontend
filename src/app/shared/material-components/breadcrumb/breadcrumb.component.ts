@@ -27,18 +27,18 @@ export class BreadcrumbComponent implements OnInit {
   constructor(private keycloakGuardService: KeycloakGuard, private store: Store,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
-    this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
+    // this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
   }
 
 
     ngOnInit() {
-      this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd),
-        distinctUntilChanged(),
-      ).subscribe(() => {
-
-        this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
-      });
+      // this.router.events.pipe(
+      //   filter(event => event instanceof NavigationEnd),
+      //   distinctUntilChanged(),
+      // ).subscribe(() => {
+      //
+      //   this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
+      // });
     }
 
 

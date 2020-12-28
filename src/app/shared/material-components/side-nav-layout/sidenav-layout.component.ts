@@ -152,11 +152,16 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
 
   }
 
+  toggleMenu(): void {
+    debugger
+    this.opened = this.opened ? false : true;
+    this.leftSidenav.toggle();
+  }
+
   routeLink(commands: any[], extras?: NavigationExtras) {
     // this.leftSidenav.toggle();
     if (this.isHandset) {
-      this.opened = false;
-      this.leftSidenav.toggle();
+      this.toggleMenu();
     }
     this.router.navigate(commands, extras);
   }

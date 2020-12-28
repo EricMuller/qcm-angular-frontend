@@ -13,7 +13,7 @@ export class PageQuestionsByQuestionnaireResolver {
   }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Page<Question>> | Promise<Page<Question>> | Page<Question> {
-    debugger
+
     return this.questionService.getPageQuestionsByQuestionnaireUuid(route.params.uuid);
   }
 }

@@ -3,10 +3,11 @@
 @import "src/assets/styles/scss/material.variables";
 
 :host {
-  margin-left: -5px;
-  margin-right: -5px;
-  margin-top: -5px;
-  display: block;
+//  margin-left: -5px;
+//  margin-right: -5px;
+//  margin-top: -5px;
+//  display: block;
+//  overflow-x: scroll;
 }
 
 $mat-toolbar-height-desktop: 4px !default;
@@ -51,5 +52,12 @@ $mat-toolbar-height-mobile-landscape: 48px !default;
 }
 
 .sidenav-content {
-  overflow: hidden;
+  /*overflow: hidden;*/
+}
+
+.sticky-toolbar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
 }

@@ -14,7 +14,7 @@ export class QuestionsQuestionnaireResolver {
   }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Page<QuestionnaireQuestion>> | Promise<Page<QuestionnaireQuestion>> | Page<QuestionnaireQuestion> {
-    debugger
+
     return this.questionnaireService.getPageQuestionsByQuestionnaireUuid(route.params.uuid, 0, environment.PAGE_SIZE, 'id');
   }
 

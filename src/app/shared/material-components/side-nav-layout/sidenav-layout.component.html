@@ -1,16 +1,14 @@
 <mat-sidenav-container class="sidenav-container"  >
 
   <!-- LEFT SIDE NAV MENU /*[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"*/-->
-  <mat-sidenav class="sidenav" #leftsidenav [mode]="mode"  [opened]="opened">
+  <mat-sidenav class="sidenav " #leftsidenav [mode]="mode"  [opened]="opened">
 
-
-
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="sticky-toolbar">
 <!--      <button mat-icon-button class="td-menu-button" (click)="leftsidenav.toggle()" matTooltip="Main menu">-->
 <!--        <mat-icon>menu</mat-icon>-->
 <!--      </button>-->
       <a routerLink="/">
-        <div style="padding-right: 5px"><img src="/assets/images/questionnaire/QCM-0-red.png" width="32" (click)="leftsidenav.toggle()"></div>
+        <div style="padding-right: 5px"><img src="/assets/images/questionnaire/QCM-0-red.png" width="32" (click)="toggleMenu()"></div>
       </a> {{appName}}.
     </mat-toolbar>
 
@@ -32,10 +30,10 @@
   <mat-sidenav-content class="sidenav-content" >
 
     <!-- TOP TOOL BAR MENU-->
-    <mat-toolbar class="toolbar" color="primary" id="sidenav-layout-toolbar">
+    <mat-toolbar class="toolbar sticky-toolbar" color="primary" id="sidenav-layout-toolbar">
       <mat-toolbar-row>
         <div *ngIf="!opened">
-          <button mat-icon-button class="td-menu-button" (click)="leftsidenav.toggle()" matTooltip="Main menu">
+          <button mat-icon-button class="td-menu-button" (click)="toggleMenu()" matTooltip="Main menu">
             <mat-icon>menu</mat-icon>
           </button>
         </div>
@@ -44,7 +42,6 @@
 <!--        </a>
        {{appName}}.-->
       <div *ngIf="!opened">
-
         {{appName}}.
       </div>
 
