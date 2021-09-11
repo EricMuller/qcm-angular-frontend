@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '@app/app/state/app-state.service';
-import {QuestionnaireModel} from '@app/app/state/questionnaire-model';
-import {SetCurrentQuestionnaireAction} from '@app/app/state/set-current-questionnaire-action';
+import {SetCurrentQuestionnaireAction} from '@app/app/state/navigation/navigation-actions';
+import {CurrentQuestionnaireModel} from '@app/app/state/navigation/navigation-model';
 import {ValidationStatusValidated} from '@app/features/qcm-rest-api/model/enums/ValidationStatus';
 import {Question, QuestionPatch} from '@app/features/qcm-rest-api/model/question.model';
 import {QuestionService} from '@app/features/qcm-rest-api/services/question.service';
@@ -22,7 +22,7 @@ export class QuestionnaireQuestionListComponent implements OnInit {
 
   private selected: Question[];
 
-  @Select(AppState.currentQuestionnaire) public currentQuestionnaire$: Observable<QuestionnaireModel>;
+  @Select(AppState.currentQuestionnaire) public currentQuestionnaire$: Observable<CurrentQuestionnaireModel>;
 
   constructor(public questionnaireQuestionListStore: QuestionnaireQuestionListStore,
               private router: Router, private route: ActivatedRoute, private store: Store,

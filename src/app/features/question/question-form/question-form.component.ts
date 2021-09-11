@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray, FormGroup} from '@angular/forms';
 import {MatChipInputEvent, MatDialog, MatDialogConfig} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '@app/app/state/app-state.service';
-import {QuestionnaireModel} from '@app/app/state/questionnaire-model';
-import {SetCurrentQuestionAction} from '@app/app/state/set-current-question-action';
+import {SetCurrentQuestionAction} from '@app/app/state/navigation/navigation-actions';
+import {CurrentQuestionnaireModel} from '@app/app/state/navigation/navigation-model';
 import {NotifierService} from '@app/core/notifications/simple-notifier.service';
 import {CategoryDialogComponent} from '@app/features/category/category-dialog/category-dialog.component';
 import {Category} from '@app/features/qcm-rest-api/model/category.model';
@@ -14,7 +14,6 @@ import {Question} from '@app/features/qcm-rest-api/model/question.model';
 import {Reponse} from '@app/features/qcm-rest-api/model/response.model';
 import {Tag} from '@app/features/qcm-rest-api/model/tag.model';
 import {CategoryService} from '@app/features/qcm-rest-api/services/category.service';
-import {QuestionnaireService} from '@app/features/qcm-rest-api/services/questionnaire.service';
 import {CategoryType} from '@app/features/qcm-rest-api/services/type.enum';
 import {QuestionListStore} from '@app/features/stores/question-list-store.service';
 
@@ -33,52 +32,44 @@ import {QuestionFormBuilder} from './question-form-builder';
 })
 export class QuestionFormComponent extends EditableFormComponent<Question, string> implements OnInit, AfterViewInit {
 
-
-  @Input()
-  public question: Question;
   public categories: Category[];
 
   public types = [];
   public status = [];
   public good: boolean;
 
-  @Output() cancel = new EventEmitter<string>();
-  @Output() save = new EventEmitter<string>();
-
-
-  constructor(protected   crudStore: QuestionListStore,
-              protected   notifierService: NotifierService,
-              protected   router: Router,
+  constructor(protected crudStore: QuestionListStore,
+              protected notifierService: NotifierService,
+              protected router: Router,
               private formBuilder: QuestionFormBuilder,
               private route: ActivatedRoute,
               private categoryService: CategoryService,
               private dialog: MatDialog, private store: Store,
-              private questionnaireService: QuestionnaireService,
               protected translateService: TranslateService) {
     super(crudStore, notifierService, router, translateService);
     this.types = this.getQuestionTypesEnum();
     this.status = this.getStatusEnum();
     this.route.data.subscribe(data => {
-        this.question = data.question;
+        debugger
         this.categories = data.categories;
+        this.createForm(data.question);
         if (route.snapshot.params.uuid) {
-          this.toggleEdition(route.snapshot.params.uuid <= 0);
+          if (route.snapshot.params.uuid <= 0) {
+            this.startEdition();
+          }
         }
+        console.log(this.model);
+        this.store.dispatch(new SetCurrentQuestionAction({uuid: this.model.uuid, title: this.model.uuid}));
       }
     );
     //  this.currentQuestionnaire$ = this.store.select(state => state.currentQuestionnaire);
   }
 
   ngOnInit(): void {
-    console.log(this.question);
-    this.store.dispatch(new SetCurrentQuestionAction({uuid: this.question.uuid, title: this.question.type}));
-    this.createForm();
     // this.toggleEdition(this.question.uuid != null);
   }
 
-  ngAfterViewInit()
-    :
-    void {
+  ngAfterViewInit(): void {
   }
 
   public create() {
@@ -97,25 +88,19 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
     responses.push(this.formBuilder.createResponseControl(new Reponse(), false));
   }
 
-  protected createForm(): void {
-
-    this.form = this.formBuilder.createForm(this.question);
+  protected createForm(model: Question): void {
+    this.model = model;
+    this.form = this.formBuilder.createForm(model);
   }
 
-  protected onDeleteForm(t: Question) {
-    this.notifierService.notifySuccess(t.uuid + ' deleted', 2000);
-    this.router.navigate(['/questions/list']);
+  protected onDeleteForm(model: Question) {
+    this.notifierService.notifySuccess(model.uuid + ' deleted', 2000);
+    this.router.navigate(['/questions/']);
   }
 
-  protected onSaveForm(data) {
-    this.toggleEdition(false);
-    this.question = data;
-    this.createForm();
-
-    this.notifierService.notifySuccess(this.translateService.instant('qcm.question.form.messages.questionCreated'), 2000);
-
-    const q: QuestionnaireModel = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
-
+  protected onSaveForm(model) {
+    super.onSaveForm(model);
+    const q: CurrentQuestionnaireModel = this.store.selectSnapshot<CurrentQuestionnaireModel>(AppState.currentQuestionnaire);
     // if (q.uuid) {
     //   this.questionnaireService.putQuestion(q.uuid, data)
     //     .subscribe(
@@ -127,7 +112,6 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
     //     );
     // }
     // this.router.navigate(['/questions/' + this.question.uuid]);
-    this.save.emit(q.uuid);
   }
 
   public onSelectResponse(event) {
@@ -190,7 +174,7 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
     const types = [];
     keys.forEach(Key => {
       console.log(`type key = ${Key}, value = ${QuestionType[Key]}`);
-      const type = {'id': Key, 'name': QuestionType[Key]};
+      const type = {id: Key, name: QuestionType[Key]};
       types.push(type);
     });
     return types;
@@ -200,7 +184,7 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
     const keys = Object.keys(ValidationStatus);
     const status = [];
     keys.forEach(Key => {
-      const type = {'id': Key, 'name': ValidationStatus[Key]};
+      const type = {id: Key, name: ValidationStatus[Key]};
       status.push(type);
     });
     return status;
@@ -238,7 +222,7 @@ export class QuestionFormComponent extends EditableFormComponent<Question, strin
   }
 
   public close(): void {
-    this.cancel.emit(this.question.uuid ? this.question.uuid : '');
+    super.cancelEdition();
   }
 
 }

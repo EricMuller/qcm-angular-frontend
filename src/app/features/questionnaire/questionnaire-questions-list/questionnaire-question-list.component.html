@@ -1,7 +1,7 @@
+<app-sidenav-layout id="sidenav-layout" appName="QCM" title="Application" #layout >
+
 <!--<div class="page-center">-->
-<div fxLayout="row" fxFlex="100%">
-  <div fxLayout='column' fxFlex="0%" fxFlex.gt-sm="10%"></div>
-  <div fxLayout='column' fxFlex="100%" fxFlex.gt-sm="80%">
+
 
     <div>
       <button fxShow.xs="false" id="replay-btn-selectable-list" mat-mini-fab (click)="list.refresh(true);"
@@ -60,14 +60,14 @@
                              [sortBy]="'id'"
                              (created)="create()">
 
-          <div toolbar-view style="display: flex;">
-        <span *ngIf="!list.isSelectedMode()"
-              style="align-items: center "> {{ "qcm.questionnaire.question.list.title" | translate}} <!--{{(currentQuestionnaire$ |async)?.title }}--></span>
-            <span *ngIf="list.isSelectedMode()"
-                  style="align-items: center ">{{ "qcm.questionnaire.question.selected.title" | translate }}  <!--{{(currentQuestionnaire$ |async)?.title }}--></span>
-          </div>
+<!--          <div toolbar-view style="display: flex;">-->
+<!--        <span *ngIf="!list.isSelectedMode()"-->
+<!--              style="align-items: center "> {{ "qcm.questionnaire.question.list.title" | translate}} &lt;!&ndash;{{(currentQuestionnaire$ |async)?.title }}&ndash;&gt;</span>-->
+<!--            <span *ngIf="list.isSelectedMode()"-->
+<!--                  style="align-items: center ">{{ "qcm.questionnaire.question.selected.title" | translate }}  &lt;!&ndash;{{(currentQuestionnaire$ |async)?.title }}&ndash;&gt;</span>-->
+<!--          </div>-->
 
-          <div toolbar-view class="spacer"></div>
+<!--          <div toolbar-view class="spacer"></div>-->
 
           <button id="addToQuestionnaireButtionId" mat-icon-button *ngIf="list.modeSelection$ |async"
                   (click)="validateAll()" matTooltip="{{ 'qcm.questionnaire.question.selected.validate' | translate}}">
@@ -97,7 +97,7 @@
 
       </div>
     </div>
-  </div>
-</div>
 
 
+
+</app-sidenav-layout>

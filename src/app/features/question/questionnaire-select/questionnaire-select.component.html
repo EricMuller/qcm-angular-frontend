@@ -1,5 +1,5 @@
 
-<mat-card class="mat-elevation-z0">
+<mat-card class="mat-elevation-z0" *ngIf="showSelected">
   <mat-chip-list>
     <mat-chip *ngFor="let questionnaire of selected " (removed)="unSelectItem(questionnaire)" selected="true" color="primary">{{questionnaire.title}}
       <mat-icon matChipRemove>cancel</mat-icon>

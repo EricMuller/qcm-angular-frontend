@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AppState} from '@app/app/state/app-state.service';
-import {QuestionnaireModel} from '@app/app/state/questionnaire-model';
+import {CurrentQuestionnaireModel} from '@app/app/state/navigation/navigation-model';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Question, QuestionnaireQuestion} from '@app/features/qcm-rest-api/model/question.model';
-import {Page} from '@app/features/qcm-rest-api/services/page';
+import {PagedModel} from '@app/features/qcm-rest-api/services/pagedModel';
 import {QuestionnaireService} from '@app/features/qcm-rest-api/services/questionnaire.service';
 import {SelectStoreAdapter} from '@app/features/stores/selection-store';
 import {CriteriaStore, CrudStore} from '@app/features/stores/store-api';
@@ -16,7 +16,7 @@ import {mergeMap} from 'rxjs/operators';
 export class QuestionnaireQuestionListStore extends SelectStoreAdapter<QuestionnaireQuestion>
   implements CriteriaStore<QuestionnaireQuestion>, CrudStore<QuestionnaireQuestion, string> {
 
-  @Select(AppState.currentQuestionnaire) public currentQuestionnaire$: Observable<QuestionnaireModel>;
+  @Select(AppState.currentQuestionnaire) public currentQuestionnaire$: Observable<CurrentQuestionnaireModel>;
 
   constructor(private questionnaireService: QuestionnaireService, private store: Store) {
     super();
@@ -38,7 +38,7 @@ export class QuestionnaireQuestionListStore extends SelectStoreAdapter<Questionn
     throw new Error('Not Implemented');
   }
 
-  getPage(page ?: number, size ?: number, sort ?: string): Observable<Page<QuestionnaireQuestion>> {
+  getPage(page ?: number, size ?: number, sort ?: string): Observable<PagedModel<QuestionnaireQuestion>> {
     // const obs = this.questionService.getQuestions(page, size, sort);
     throw new Error(' getPage Not Implemented');
     // const q: QuestionnaireModel = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
@@ -52,7 +52,7 @@ export class QuestionnaireQuestionListStore extends SelectStoreAdapter<Questionn
 
   deleteElement(question: QuestionnaireQuestion): Observable<QuestionnaireQuestion> {
 
-    const q = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
+    const q = this.store.selectSnapshot<CurrentQuestionnaireModel>(AppState.currentQuestionnaire);
 
     return this.questionnaireService
       .deleteQuestionByUuid(q.uuid, question.uuid)
@@ -64,7 +64,7 @@ export class QuestionnaireQuestionListStore extends SelectStoreAdapter<Questionn
 
   deleteElements(questions: QuestionnaireQuestion[]) {
 
-    const q = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
+    const q = this.store.selectSnapshot<CurrentQuestionnaireModel>(AppState.currentQuestionnaire);
 
     for (const question of questions) {
       this.questionnaireService.deleteQuestionByUuid(q.uuid, question.uuid)
@@ -84,9 +84,9 @@ export class QuestionnaireQuestionListStore extends SelectStoreAdapter<Questionn
     // }
   }
 
-  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<Page<QuestionnaireQuestion>> {
+  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<PagedModel<QuestionnaireQuestion>> {
 
-    const q: QuestionnaireModel = this.store.selectSnapshot<QuestionnaireModel>(AppState.currentQuestionnaire);
+    const q: CurrentQuestionnaireModel = this.store.selectSnapshot<CurrentQuestionnaireModel>(AppState.currentQuestionnaire);
     const obs = this.questionnaireService.getPageQuestionsByQuestionnaireUuid(q.uuid, page, size, sort);
     obs.subscribe(
       p => {

@@ -54,6 +54,7 @@
     }
 
     mat-sidenav {
+      margin: 0px;
       .mat-list-item {
         &.active {
           color: mat-color($accent, default-contrast);

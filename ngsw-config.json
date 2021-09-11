@@ -12,7 +12,8 @@
           "/index.html",
           "/*.ico",
           "/*.css",
-          "/*.js"
+          "/*.js",
+          "/*.woff"
         ]
       }
     },
@@ -22,12 +23,27 @@
       "updateMode": "prefetch",
       "resources": {
         "files": [
+
           "/assets/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani|json)"
         ],
         "urls": [
-          "https://fonts.googleapis.com/**","https://fonts.gstatic.com/**"
+          "https://fonts.googleapis.com/**",
+          "https://fonts.gstatic.com/**"
         ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "Rest API",
+      "urls": [
+        "https://qcm-api.webmarks.net/qcm/api"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "2h"
       }
     }
   ]

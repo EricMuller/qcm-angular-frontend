@@ -1,14 +1,15 @@
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {HttpClient} from '@angular/common/http';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {RippleGlobalOptions} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {AppRoutingModule} from '@app/app-routing.module';
 
 import {AppComponent} from '@app/app/app.component';
 import {AppState} from '@app/app/state/app-state.service';
-import {HomeComponent} from '@app/features/home/home.component';
+import {AboutComponent} from '@app/features/home/about.component';
 import {QcmRestApiModule} from '@app/features/qcm-rest-api/qcm-rest-api.module';
 import {QuestionListStore} from '@app/features/stores/question-list-store.service';
 
@@ -19,25 +20,54 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {NgxsModule} from '@ngxs/store';
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {environment} from '../environments/environment';
 import {CoreModule, createTranslateLoader} from './core/core.module';
+
+const globalRippleConfig: RippleGlobalOptions = {
+  terminateOnPointerUp: true,
+  disabled: false,
+  animation: {
+    enterDuration: 300,
+    exitDuration: 0
+  }
+};
+
+export function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        url: environment.KEYCLOAK_URL,
+        realm: environment.KEYCLOAK_REALM,
+        clientId: environment.KEYCLOAK_CLIENTID
+      },
+      initOptions: {
+         onLoad: 'check-sso',
+         silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+        // onLoad: 'login-required',
+        checkLoginIframe: false,
+      },
+      bearerExcludedUrls: ['/assets', '/clients/public'],
+    });
+}
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent],
+    AboutComponent],
   imports: [
     BrowserAnimationsModule,
     AngularModule,
     MaterialModule,
-    NgxsModule.forRoot([AppState], { developmentMode: !environment.production }),
+    AppRoutingModule,
+    NgxsModule.forRoot([AppState], {developmentMode: !environment.production}),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     QcmRestApiModule.forRoot(),
     CoreModule.forRoot(),
     FlexLayoutModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('./ngsw-worker.js', {enabled: environment.production}),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -46,14 +76,30 @@ import {CoreModule, createTranslateLoader} from './core/core.module';
       }
     }),
     MaterialComponentsModule,
+    LoggerModule.forRoot({
+      serverLoggingUrl: '/logs',
+      level: NgxLoggerLevel.TRACE,
+      serverLogLevel: NgxLoggerLevel.ERROR,
+      disableConsoleLogging: false
+    }),
+    KeycloakAngularModule
   ],
-  providers: [QuestionListStore],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      deps: [KeycloakService],
+      multi: true
+    }
+    , QuestionListStore
+    // ,{provide: MAT_RIPPLE_GLOBAL_OPTIONS, useValue: globalRippleConfig},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
   constructor(overlayContainer: OverlayContainer) {
-   overlayContainer.getContainerElement().classList.add('light-blue-theme');
+    overlayContainer.getContainerElement().classList.add('light-blue-theme');
   }
 
 }

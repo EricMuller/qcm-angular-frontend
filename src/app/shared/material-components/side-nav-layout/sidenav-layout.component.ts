@@ -3,10 +3,12 @@ import {AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild} from '
 import {MatSidenav} from '@angular/material';
 import {NavigationExtras, Router} from '@angular/router';
 import {AppState} from '@app/app/state/app-state.service';
-import {NavigationModel} from '@app/app/state/navigation-model';
+import {OpenAction} from '@app/app/state/navigation/navigation-actions';
+import {MenuItemModel} from '@app/app/state/navigation/navigation-model';
 import {KeycloakGuard} from '@app/core/auth/keycloak.guard';
+import {Logger} from '@app/core/loggers/logger.service';
 import {TranslateService} from '@ngx-translate/core';
-import {Select} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {Observable, of, Subscription} from 'rxjs';
 
 @Component({
@@ -23,10 +25,12 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
 
   private querySubscription: Subscription;
 
+  private breakpointSubscription: Subscription;
+
   private isSmallScreen = false;
 
   @Input()
-  public appName = '';
+  public appName = 'app.name';
 
   @Input()
   public title = '';
@@ -35,41 +39,38 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
   public opened = false;
 
   @Input()
+  public modeFormulaire = false;
+
+  @Input()
   public style = 'width:300px;border-right: 1px solid rgba(0, 0, 0, 0.12)';
 
   language$: Observable<string>;
 
   /* main menu */
-  @Select(AppState.navigation) public navigation$: Observable<NavigationModel[]>;
-  @Select(AppState.currentPageTitle) public currentPageTitle$: Observable<string>;
+  @Select(AppState.menu) public menu$: Observable<MenuItemModel[]>;
+  @Select(AppState.online) public offline$: Observable<boolean>;
+  @Select(AppState.opened) public opened$: Observable<boolean>;
 
-  // navigation = [
-  //   {link: '/home', label: 'menu.about'},
-  //   {link: '/questionnaires/list', label: 'menu.questionnaires'},
-  //   {link: '/questions/list', label: 'menu.questions'},
-  // ];
-  //
-  // navigationSideMenu = [
-  //   ...this.navigation,
-  //   {link: '/upload/', label: 'menu.upload'},
-  // ];
-
-  isHandset$: Observable<boolean>;
-  isHandset: boolean;
-  mode = 'side';
+  isMobile: boolean;
+  sideNavMode = 'side';
 
 
   constructor(private breakpointObserver: BreakpointObserver, private router: Router,
-              public translate: TranslateService, private keycloakGuardService: KeycloakGuard) {
+              public translate: TranslateService,
+              private keycloakGuard: KeycloakGuard,
+              private store: Store) {
+
+    this.opened$.subscribe(value => this.opened = value);
+
   }
 
   public login(event): void {
   }
 
   ngOnInit(): void {
+    Logger.info('SideNavLayoutComponent', 'ngOnInit');
 
-    console.log('SideNavLayoutComponent.ngOnInit ok');
-    this.breakpointObserver.observe([
+    this.breakpointSubscription = this.breakpointObserver.observe([
       Breakpoints.XSmall,
       Breakpoints.Small,
       Breakpoints.Medium,
@@ -77,53 +78,41 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
       Breakpoints.XLarge
     ]).subscribe((state: BreakpointState) => {
 
+      let isMobile = false;
+      let sideNavMode = 'side';
+
       if (state.breakpoints[Breakpoints.XSmall]) {
-        console.log('Matches XSmall viewport');
-        this.isHandset = true;
-        this.mode = 'over';
-        this.opened = false;
-        // this.leftSidenav.toggle();
+        Logger.info('SideNavLayoutComponent', 'ngOnInit', 'Matches XSmall viewport');
+        sideNavMode = 'over';
+        isMobile = true;
       }
       if (state.breakpoints[Breakpoints.Small]) {
-        this.isHandset = true;
-        this.mode = 'over';
-        this.opened = false;
-        console.log('Matches Small viewport');
+        Logger.info('SideNavLayoutComponent', 'ngOnInit', 'Matches Small viewport');
+        sideNavMode = 'over';
       }
-      if (state.breakpoints[Breakpoints.Medium]) {
-        this.isHandset = false;
-        this.mode = 'side';
-        this.opened = true;
-        console.log('Matches Medium  viewport');
-      }
-      if (state.breakpoints[Breakpoints.Large]) {
-        this.isHandset = false;
-        this.mode = 'side';
-        this.opened = true;
-        console.log('Matches Large viewport');
-      }
-      if (state.breakpoints[Breakpoints.XLarge]) {
-        this.isHandset = false;
-        this.mode = 'side';
-        this.opened = true;
-        console.log('Matches XLarge viewport');
-      }
+
+      this.isMobile = isMobile;
+      this.sideNavMode = sideNavMode;
+
     });
 
   }
 
-  ngAfterContentInit(): void {
-    // this.isHandset$ = this.breakpointObserver.observe([Breakpoints.Handset])
-    //   .pipe(
-    //     map(
-    //       result => {
-    //         console.log(result);
-    //         return result.matches;
-    //       })
-    //   );
-    // console.log('SideNavLayoutComponent.ngAfterContentInit ok');
+  ngOnDestroy(): void {
+    // this._querySubscription.unsubscribe();
+    Logger.info('SideNavLayoutComponent', 'ngOnDestroy');
+    if (this.breakpointSubscription) {
+      this.breakpointSubscription.unsubscribe();
+    }
   }
 
+  ngAfterContentInit(): void {
+
+  }
+
+  isModeFormulaire() {
+    return this.modeFormulaire && this.isMobile;
+  }
 
   checkScreen(): void {
     // this._ngZone.run(() => {
@@ -144,31 +133,32 @@ export class SideNavLayoutComponent implements OnInit, OnDestroy, AfterContentIn
     return of(true);
   }
 
-  ngOnDestroy(): void {
-    // this._querySubscription.unsubscribe();
-  }
 
   onLanguageSelect($event): void {
 
   }
 
   toggleMenu(): void {
-    debugger
-    this.opened = this.opened ? false : true;
+
+    const opened = this.opened ? false : true;
+    this.store.dispatch(new OpenAction(opened));
     this.leftSidenav.toggle();
   }
 
-  routeLink(commands: any[], extras?: NavigationExtras) {
+
+  routeLink(menuItem: MenuItemModel, extras?: NavigationExtras): void {
     // this.leftSidenav.toggle();
-    if (this.isHandset) {
-      this.toggleMenu();
+    // if (this.isMobile) {
+    this.toggleMenu();
+    // }
+
+    if (menuItem.link) {
+      this.router.navigate([menuItem.link], extras);
     }
-    this.router.navigate(commands, extras);
   }
 
-  public isLoggedIn(): boolean {
-    return this.keycloakGuardService.isLoggedIn();
-  }
-
+  // public isLoggedIn(): Promise<boolean> {
+  //   return this.keycloakGuard.isLoggedIn();
+  // }
 
 }

@@ -3,7 +3,7 @@
   <mat-list-item class="list mat-elevation-z2 list-item" *ngFor="let item of elements$ |async ; index as i"
                  attr.entityId="uploadId_{{item.uuid}}">
 
-    <button mat-icon-button matListAvatar (click)="uploadStore.swapElement(item)">
+    <button mat-icon-button matListAvatar (click)="uploadStore.swapElement(item)" onclick="this.blur()">
       <mat-icon matListIcon *ngIf="!uploadStore.isSelected(item)">question_answer</mat-icon>
       <mat-checkbox *ngIf="uploadStore.isSelected(item)" matListAvatar
                     [checked]="uploadStore.isSelected(item)"></mat-checkbox>

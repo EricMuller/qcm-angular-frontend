@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-page-layout',
@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageLayoutComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  menu = true;
+  @Input()
+  padding = '5px';
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

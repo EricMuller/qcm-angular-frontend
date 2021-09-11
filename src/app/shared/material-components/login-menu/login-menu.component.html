@@ -1,7 +1,9 @@
 
-<button mat-raised-button *ngIf="!isLoggedIn()" color="accent" (click) ="login()">{{"menu.login" | translate }}</button>
+<!--<button mat-raised-button *ngIf="!isLoggedIn()" color="accent" (click) ="login()">{{"menu.login" | translate }}</button>-->
 
-<button *ngIf="isLoggedIn()" mat-icon-button mat-stroked-button [matMenuTriggerFor]="appMenuApp">
+<!--<button *ngIf="isLoggedIn() | async" mat-raised-button color="accent" (click) ="logout()">{{"menu.logout" | translate }}</button>-->
+
+<button *ngIf="isLoggedIn() | async" mat-icon-button mat-stroked-button [matMenuTriggerFor]="appMenuApp">
   <mat-icon>account_circle</mat-icon>
 </button>
 
@@ -22,8 +24,24 @@
 <!--&lt;!&ndash;</a>&ndash;&gt;-->
 <!--</mat-menu>-->
 
+<!--<mat-menu #menu="matMenu">-->
+<!--  <button mat-menu-item>-->
+<!--    <mat-icon>dialpad</mat-icon>-->
+<!--    <span>Redial</span>-->
+<!--  </button>-->
+<!--  <button mat-menu-item disabled>-->
+<!--    <mat-icon>voicemail</mat-icon>-->
+<!--    <span>Check voice mail</span>-->
+<!--  </button>-->
+<!--  <button mat-menu-item>-->
+<!--    <mat-icon>notifications_off</mat-icon>-->
+<!--    <span>Disable alerts</span>-->
+<!--  </button>-->
+<!--</mat-menu>-->
+
 <mat-menu #appMenuApp="matMenu">
-<!--  <td-menu *ngIf="isloggedIn()">-->
+
+  <!--  <td-menu *ngIf="isloggedIn()">-->
 <!--    <div td-menu-header class="mat-subheading-2 push-none">-->
 <!--      <div>-->
 <!--        <span><b>{{this.getUser().first_name}} {{this.getUser().last_name}}</b></span>-->
@@ -32,13 +50,13 @@
 <!--    </div>-->
 
     <mat-nav-list dense>
-      <button *ngIf="isLoggedIn()" mat-menu-item class="profile-img" (click)="profile()">
+      <button *ngIf="isLoggedIn() | async" mat-menu-item class="profile-img" (click)="profile()">
         <mat-icon style="font-size: 32px">account_circle</mat-icon>
         Profile
       </button>
     </mat-nav-list>
 
-    <a *ngIf="isLoggedIn()" mat-menu-item (click)="logout()">
+    <a *ngIf="isLoggedIn() | async" mat-menu-item (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
       logout
     </a>

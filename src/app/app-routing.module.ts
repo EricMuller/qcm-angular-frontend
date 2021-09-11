@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './features/home/home.component';
+import {AboutComponent} from './features/home/about.component';
 import {QuestionResolver} from './features/question/resolvers/question-resolver.service';
 import {QuestionsResolver} from './features/question/resolvers/questions-resolver.service';
 import {PageQuestionsByQuestionnaireResolver} from './features/questionnaire/resolvers/page-questions-questionnaire-resolver.service';
@@ -9,53 +9,52 @@ import {QuestionsQuestionnaireResolver} from './features/questionnaire/resolvers
 const routes: Routes = [
 
   {
-    path: 'home', component: HomeComponent,
+    path: 'about', component: AboutComponent,
     data: {
-      breadcrumb: 'Home'
+      pageTitle: 'menu.about'
     }
   },
   {
     path: 'upload', loadChildren: () => import('./features/upload/upload-routing.module').then(m => m.UploadRoutingModule),
     data: {
-      breadcrumb: null
+      pageTitle: null
     }
   },
   {
-    path: 'user', loadChildren: () => import('./features/user/user-routing.module').then(m => m.UserRoutingModule),
+    path: 'user', loadChildren: () => import('./features/account/account-routing.module').then(m => m.AccountRoutingModule),
     data: {
-      breadcrumb: null
+      pageTitle: null
     }
   },
   {
     path: 'social', loadChildren: () => import('./features/social/social-routing.module').then(m => m.SocialRoutingModule),
     data: {
-      breadcrumb: null
+      pageTitle: null
     }
   },
   {
     path: 'questions',
     loadChildren: () => import('./features/question/question-routing.module').then(m => m.QuestionRoutingModule),
-    data: {preload: true, breadcrumb: null}
+    data: {preload: true, pageTitle: null}
   },
   {
     path: 'questionnaires',
     loadChildren: () => import('./features/questionnaire/questionnaire-routing.module').then(m => m.QuestionnaireRoutingModule),
-    data: {preload: true, breadcrumb: 'Mes questionnaires'},
+    data: {preload: true, pageTitle: 'Mes questionnaires'},
   },
   {
     path: 'settings',
     loadChildren: () => import('./features/settings/settings-routing.module').then(m => m.SettingsRoutingModule),
-    data: {preload: true, breadcrumb: null},
+    data: {preload: true, pageTitle: null},
   },
   {
-    path: '', redirectTo: 'home', pathMatch: 'full'
-  }
+    path: '', redirectTo: 'about', pathMatch: 'full'
+   }
 
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {useHash: true, enableTracing: false, preloadingStrategy: PreloadAllModules})
+  imports: [RouterModule.forRoot(routes, {useHash: true, enableTracing: false, preloadingStrategy: PreloadAllModules})
   ],
   exports: [RouterModule],
   providers: [PageQuestionsByQuestionnaireResolver, QuestionsResolver, QuestionResolver, QuestionsQuestionnaireResolver]

@@ -1,5 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SwUpdate} from '@angular/service-worker';
+import {OnLineAction} from '@app/app/state/app-actions';
+import {Store} from '@ngxs/store';
+import {merge, Observable} from 'rxjs';
+import {fromEvent} from 'rxjs/internal/observable/fromEvent';
+import {Observer} from 'rxjs/internal/types';
+import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -10,7 +16,7 @@ import {SwUpdate} from '@angular/service-worker';
 export class AppComponent implements OnInit, OnDestroy {
 
 
-  constructor(private swUpdate: SwUpdate) {
+  constructor(private swUpdate: SwUpdate, private store: Store) {
 
   }
 
@@ -31,6 +37,19 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this.createOnline$().subscribe(
+      isOnline =>
+        this.store.dispatch(new OnLineAction(isOnline)));
+  }
+
+  createOnline$() {
+    return merge<boolean>(
+      fromEvent(window, 'offline').pipe(map(() => false)),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      new Observable((sub: Observer<boolean>) => {
+        sub.next(navigator.onLine);
+        sub.complete();
+      }));
   }
 
 }

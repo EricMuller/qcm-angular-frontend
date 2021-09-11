@@ -13,8 +13,8 @@ import {Observable, of} from 'rxjs';
 
 import {AppComponent} from '@app/app/app.component';
 import {CategoryService} from '../features/qcm-rest-api/services/category.service';
-import {UserService} from '../features/qcm-rest-api/services/user.service';
-import {User} from '../core/auth/user.model';
+import {MyAccountService} from '../features/qcm-rest-api/services/my-account.service';
+import {Account} from '../core/auth/account.model';
 
 
 describe('AppComponent', () => {
@@ -35,7 +35,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      providers: [CookieService, CategoryService, {provide: UserService, useClass: MockUserService}]
+      providers: [CookieService, CategoryService, {provide: MyAccountService, useClass: MockUserService}]
     }).compileComponents();
   }));
 
@@ -54,8 +54,8 @@ describe('AppComponent', () => {
 });
 
 class MockUserService {
-  public getCurrentUser(): Observable<User> {
-    const user: User = new User();
+  public getCurrentUser(): Observable<Account> {
+    const user: Account = new Account();
     user.userName = 'eric';
     return of(user);
   }

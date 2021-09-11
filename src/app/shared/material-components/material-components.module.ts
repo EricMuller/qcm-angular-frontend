@@ -10,12 +10,15 @@ import {FabToggleComponent} from '@app/shared/material-components/fab/fab-toggle
 import {FabModule} from '@app/shared/material-components/fab/fab.module';
 import {LayoutDialogModule} from '@app/shared/material-components/layout-module/layout-dialog.module';
 import {LoginMenuComponent} from '@app/shared/material-components/login-menu/login-menu.component';
+import {RoutingTitleComponent} from '@app/shared/material-components/page-title/routing-title.component';
 import {SelectableListComponent} from '@app/shared/material-components/selectable-list/selectable-list.component';
 import {SideNavLayoutComponent} from '@app/shared/material-components/side-nav-layout/sidenav-layout.component';
 import {MaterialModule} from '@app/shared/material/material.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {PageLayoutComponent} from './page-layout/page-layout.component';
+import { BackNavLayoutComponent } from './back-nav-layout/back-nav-layout.component';
+
 
 @NgModule({
   imports: [
@@ -28,9 +31,10 @@ import {PageLayoutComponent} from './page-layout/page-layout.component';
     LayoutDialogModule,
     TranslateModule.forChild()
   ],
-  declarations: [SelectableListComponent, SideNavLayoutComponent, LoginMenuComponent, BreadcrumbComponent, PageLayoutComponent]
-  , exports: [SelectableListComponent, SideNavLayoutComponent, LoginMenuComponent,
-    FabMenuComponent, FabToggleComponent, FabButtonComponent, PageLayoutComponent]
+  declarations: [SelectableListComponent, SideNavLayoutComponent, LoginMenuComponent, BreadcrumbComponent, PageLayoutComponent, RoutingTitleComponent, BackNavLayoutComponent]
+  ,
+    exports: [SelectableListComponent, SideNavLayoutComponent, LoginMenuComponent,
+        FabMenuComponent, FabToggleComponent, FabButtonComponent, PageLayoutComponent, BackNavLayoutComponent]
 })
 export class MaterialComponentsModule {
 }

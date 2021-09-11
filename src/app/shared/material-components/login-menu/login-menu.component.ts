@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {KeycloakGuard} from '@app/core/auth/keycloak.guard';
+import {Observable} from 'rxjs/internal/Observable';
 
 
 @Component({
@@ -10,22 +11,19 @@ import {KeycloakGuard} from '@app/core/auth/keycloak.guard';
 })
 export class LoginMenuComponent implements OnInit {
 
-  constructor(private keycloakGuardService: KeycloakGuard, private router: Router) {
+  constructor(private keycloakGuard: KeycloakGuard, private router: Router) {
   }
 
   ngOnInit() {
   }
 
-  public isLoggedIn(): boolean {
-    return this.keycloakGuardService.isLoggedIn();
+  public isLoggedIn(): Observable<boolean> {
+    return this.keycloakGuard.isLoggedIn();
   }
 
-  public login() {
-    this.keycloakGuardService.login();
-  }
 
   public logout() {
-    this.keycloakGuardService.logout();
+    this.keycloakGuard.logout();
 
   }
 

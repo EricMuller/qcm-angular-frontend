@@ -14,7 +14,7 @@ import {Observable} from 'rxjs';
 export class LayoutDialogModule {
 
   isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(
-    [Breakpoints.Web, Breakpoints.Tablet]
+    [Breakpoints.XSmall]
   );
 
   constructor(private readonly breakpointObserver: BreakpointObserver) {
@@ -63,7 +63,7 @@ export class LayoutDialogModule {
          * The dialog has box size.
          *
          */
-        d.updateSize('auto', 'auto');
+        d.updateSize('90%', '90%');
       }
     });
     /**

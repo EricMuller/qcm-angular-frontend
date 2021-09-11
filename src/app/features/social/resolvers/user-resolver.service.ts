@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {User} from '@app/core/auth/user.model';
-import {UserService} from '@app/features/qcm-rest-api/services/user.service';
+import {Account} from '@app/core/auth/account.model';
+import {MyAccountService} from '@app/features/qcm-rest-api/services/my-account.service';
 
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
@@ -8,12 +8,12 @@ import {EMPTY, Observable} from 'rxjs';
 
 
 @Injectable()
-export class SocialUserResolver implements Resolve<User> {
+export class SocialUserResolver implements Resolve<Account> {
 
-  constructor(private userService: UserService) {
+  constructor(private userService: MyAccountService) {
   }
 
-  resolve(route: ActivatedRouteSnapshot): Observable<User> {
-    return this.userService.getUser();
+  resolve(route: ActivatedRouteSnapshot): Observable<Account> {
+    return this.userService.getAccount();
   }
 }

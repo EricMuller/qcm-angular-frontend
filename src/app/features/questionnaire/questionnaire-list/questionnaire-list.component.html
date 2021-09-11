@@ -1,4 +1,4 @@
-<app-page-layout>
+<app-sidenav-layout id="sidenav-layout"  title="Application" #layout>
 
 
     <!--  <div class="page-header" fxlayout fxlayout="column" fxLayout.xs="column" fxLayoutAlign="center center">-->
@@ -24,27 +24,29 @@
     </span>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" [hidden]="!filter">
-        <div>{{'qcm.tag-select.title' | translate}}:</div>
-        <app-tag-select></app-tag-select>
-      </div>
+<!--      <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" [hidden]="!filter">-->
+<!--        <div>{{'qcm.tag-select.title' | translate}}:</div>-->
+<!--        <app-tag-select></app-tag-select>-->
+<!--      </div>-->
 
-      <!--    <div fxLayout="row" fxLayoutAlign="end end" [hidden]="!filter">-->
-      <!--      <button mat-fab color="primary" (click)="filter=!filter;">-->
-      <!--        <mat-icon>close</mat-icon>-->
-      <!--      </button>-->
-      <!--    </div>-->
+          <div fxLayout="row" fxLayoutAlign="end end" [hidden]="!filter">
+            <button mat-fab color="primary" (click)="filter=!filter;">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
 
     </div>
 
     <!--  start desktop fab-->
     <button fxShow.xs="false" id="replay-btn-selectable-list" mat-mini-fab (click)="list.refresh(true);"
+            onclick="this.blur()"
             class="fab-bottom-up2"
             matTooltip="{{'qcm.selectable-list.menu.refresh' | translate}}">
       <mat-icon>replay</mat-icon>
     </button>
 
     <button fxShow.xs="false" toolbar-view mat-mini-fab (click)="filter=!filter;" class="fab-bottom-up1"
+            onclick="this.blur()"
             color="primary"
             matTooltip="{{'qcm.questionnaire.menu.filter' | translate}}">
 
@@ -57,12 +59,14 @@
     </button>
 
     <button id="add-btn-selectable-list" mat-fab (click)="list.onCreateElement($event)" color="primary"
+            onclick="this.blur()"
             class="fab-bottom"
             matTooltip="{{'qcm.selectable-list.menu.new' | translate }}" [hidden]="filter">
       <mat-icon>add</mat-icon>
     </button>
 
     <button id="list-btn-selectable-list" mat-fab (click)="list.refresh(true);filter=!filter;" color="primary"
+            onclick="this.blur()"
             class="fab-bottom"
             matTooltip="{{'qcm.selectable-list.menu.new' | translate }}" [hidden]="!filter">
       <mat-icon>list</mat-icon>
@@ -76,15 +80,15 @@
                            [sortBy]="'id'"
                            (created)="create()">
 
-        <div toolbar-view class="overflow-hidden">
-        <span *ngIf="list.isSelectedMode()"
-              style="align-items: center ">{{'qcm.questionnaire.selected.title' | translate }}</span>
-          <span *ngIf="!list.isSelectedMode()"
-                style="align-items: center ">{{'qcm.questionnaire.list.title' | translate }}</span>
-        </div>
+        <!--        <div toolbar-view class="overflow-hidden">-->
+        <!--&lt;!&ndash;        <span *ngIf="list.isSelectedMode()"&ndash;&gt;-->
+        <!--&lt;!&ndash;              style="align-items: center ">{{'qcm.questionnaire.selected.title' | translate }}</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;          <span *ngIf="!list.isSelectedMode()"&ndash;&gt;-->
+        <!--&lt;!&ndash;                style="align-items: center ">{{'qcm.questionnaire.list.title' | translate }}</span>&ndash;&gt;-->
+        <!--        </div>-->
 
 
-        <div toolbar-view class="spacer"></div>
+        <!--        <div toolbar-view class="spacer"></div>-->
 
         <!--   Filter-->
         <!--  start mobile-->
@@ -108,7 +112,6 @@
 
     </div>
 
-</app-page-layout>
 
-
+</app-sidenav-layout>
 

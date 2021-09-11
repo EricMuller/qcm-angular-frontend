@@ -9,11 +9,16 @@ import {AppGuard} from '@app/shared/auth/app-guard.service';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'list', pathMatch: 'full'
+    path: '', component: QuestionListComponent, canActivate: [AppGuard],
+    data: {
+      pageTitle: 'menu.questions',
+    }
   },
-  {path: 'list', component: QuestionListComponent, canActivate: [AppGuard]},
   {
     path: ':uuid', component: QuestionFormComponent, canActivate: [AppGuard],
+    data: {
+      pageTitle: 'menu.page.question',
+    },
     resolve: {
       question: QuestionResolver,
       categories: QuestionCategoryResolver

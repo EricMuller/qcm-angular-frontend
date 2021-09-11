@@ -1,4 +1,5 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {Questionnaire} from '@app/features/qcm-rest-api/model/questionnaire.model';
 import {QCM_API_ENDPOINT_TOKEN, QcmApiEndPoint} from '@app/features/qcm-rest-api/qcm-api-end-point';
 import {ExportService} from '@app/features/qcm-rest-api/services/export.service';
@@ -18,7 +19,7 @@ export class QuestionnaireNavListComponent implements OnInit {
 
   constructor(private questionnaireListStore: QuestionnaireListStore,
               private tagStore: QuestionnaireListStore, @Inject(QCM_API_ENDPOINT_TOKEN) private endPoint: QcmApiEndPoint,
-              private exportService: ExportService) {
+              private exportService: ExportService, private router: Router) {
   }
 
   ngOnInit() {
@@ -34,8 +35,9 @@ export class QuestionnaireNavListComponent implements OnInit {
     this.tagStore.swapElement(tag);
   }
 
-  public setClickedRow = function (questionnaire: Questionnaire) {
+  public setClickedRow = function (event, questionnaire: Questionnaire) {
     this.questionnaireListStore.swapElement(questionnaire);
+    event.stopPropagation();
   };
 
   download(questionnaire: Questionnaire, type: string) {
@@ -49,6 +51,11 @@ export class QuestionnaireNavListComponent implements OnInit {
       });
   }
 
+  navigate(questionnaire: Questionnaire) {
+
+    this.router.navigate(['/questionnaires/' + questionnaire.uuid]);
+    // [routerLink] = "['/questionnaires/'+ questionnaire.uuid ]
+  }
 
   /*
   'application/json' , 'application/msword' , 'application/octet-stream'

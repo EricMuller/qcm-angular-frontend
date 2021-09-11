@@ -1,8 +1,9 @@
-import {AfterContentInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material';
+import {Logger} from '@app/core/loggers/logger.service';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Entity} from '@app/features/qcm-rest-api/model/entity';
-import {Page} from '@app/features/qcm-rest-api/services/page';
+import {PagedModel} from '@app/features/qcm-rest-api/services/pagedModel';
 import {CriteriaStore} from '@app/features/stores/store-api';
 import {ArrayCallback} from '@app/shared/material-components/selectable-list/arrayCallback';
 import {BehaviorSubject, Observable, of, ReplaySubject, Subject} from 'rxjs';
@@ -19,7 +20,7 @@ enum ViewMode {
   templateUrl: './selectable-list.component.html',
   styleUrls: ['./selectable-list.component.scss'],
 })
-export class SelectableListComponent<T extends Entity> implements OnInit, AfterContentInit {
+export class SelectableListComponent<T extends Entity> implements OnInit, OnDestroy,  AfterContentInit {
 
   public elements: T[] = [];
   public selected: T[] = [];
@@ -66,7 +67,13 @@ export class SelectableListComponent<T extends Entity> implements OnInit, AfterC
   constructor() {
   }
 
+  ngOnDestroy() {
+    Logger.info('SelectableListComponent', 'ngOnDestroy');
+  }
+
   ngOnInit(): void {
+
+    Logger.info('SelectableListComponent', 'ngOnInit');
 
     this.store.deleted$.subscribe((element) => {
         const itemIndex = this.elements.findIndex(item => item.uuid === element.uuid);
@@ -105,21 +112,24 @@ export class SelectableListComponent<T extends Entity> implements OnInit, AfterC
     );
 
     this.store.criteriaSize$.subscribe((size: number) => {
-        console.log('SelectableListComponent:ngOnInit:criteriaSize$:' + size.toString());
+        Logger.info('SelectableListComponent', 'ngOnInit', 'SelectableListComponent:ngOnInit:criteriaSize$:' + size.toString());
+
       }
     );
 
-    this.store.page$.subscribe((page: Page<T>) => {
-        console.log('SelectableListComponent:ngOnInit:page$:' + page.numberOfElements);
+    this.store.page$.subscribe((page: PagedModel<T>) => {
+        console.log('SelectableListComponent:ngOnInit:page$:' + page.page.numberOfElements);
       }
     );
 
     console.log('SelectableListComponent:ngOnInit');
+
   }
 
-  private getContentPage(page: Page<T>, cleanBefore ?: boolean) {
-    this.resultsLength = page.totalElements;
-    this.last = page.last;
+  private getContentPage(pagedModel: PagedModel<T>, cleanBefore ?: boolean) {
+
+    this.resultsLength = pagedModel.page.totalElements;
+    this.last = pagedModel.page.last;
     if (!cleanBefore) {
       this.pageIndex++;
     } else {
@@ -128,12 +138,12 @@ export class SelectableListComponent<T extends Entity> implements OnInit, AfterC
       this.numberOfElements = 0;
       this.totalElements = 0;
     }
-    for (const item of page.content) {
+    for (const item of pagedModel.content) {
       this.elements.push(item);
     }
     this.curentPageSize = this.elements.length;
-    this.numberOfElements += page.numberOfElements;
-    this.totalElements = page.totalElements;
+    this.numberOfElements += pagedModel.page.numberOfElements;
+    this.totalElements = pagedModel.page.totalElements;
   }
 
   private refreshElements(pageIndex: number, pageSize: number, sort: string, cleanBefore ?: boolean): Observable<boolean> {
@@ -190,7 +200,7 @@ export class SelectableListComponent<T extends Entity> implements OnInit, AfterC
   }
 
   public unSelectAll() {
-        this.store.unSelectAllElement();
+    this.store.unSelectAllElement();
   }
 
   swapSelectedMode() {
@@ -216,7 +226,13 @@ export class SelectableListComponent<T extends Entity> implements OnInit, AfterC
   }
 
   ngAfterContentInit(): void {
-    this.refresh(true);
+
+
+    if (!this.elements.length) {
+      this.refresh(true);
+    }
+
+
   }
 
 }

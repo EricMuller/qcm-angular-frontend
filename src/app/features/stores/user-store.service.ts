@@ -1,32 +1,36 @@
 import {Injectable} from '@angular/core';
-import {User} from '@app/core/auth/user.model';
+import {Account} from '@app/core/auth/account.model';
 import {Tag} from '@app/features/qcm-rest-api/model/tag.model';
-import {UserService} from '@app/features/qcm-rest-api/services/user.service';
+import {MyAccountService} from '@app/features/qcm-rest-api/services/my-account.service';
 import {SelectStoreAdapter} from '@app/features/stores/selection-store';
 import {CrudStore} from '@app/features/stores/store-api';
 import {Observable, of} from 'rxjs';
 
 
 @Injectable()
-export class UserStore extends SelectStoreAdapter<Tag> implements CrudStore<User, number> {
+export class UserStore extends SelectStoreAdapter<Tag> implements CrudStore<Account, number> {
 
-  constructor(private userService: UserService) {
+  constructor(private accountService: MyAccountService) {
 
     super();
     console.log('UserStore:constructor');
   }
 
-  getElement(id: number): Observable<User> {
+  getElement(id: number): Observable<Account> {
     return undefined;
   }
 
-  deleteElement(user: User): Observable<User> {
+  deleteElement(user: Account): Observable<Account> {
     return of(user);
   }
 
-  saveElement(element: User): Observable<User> {
+  saveElement(element: Account): Observable<Account> {
 
-    return this.userService.postUser(element);
+    if (element.uuid) {
+      return this.accountService.putAccount(element);
+    } else {
+      return this.accountService.postAccount(element);
+    }
 
   }
 

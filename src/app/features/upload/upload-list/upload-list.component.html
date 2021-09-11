@@ -1,46 +1,49 @@
-<app-page-layout>
+<app-sidenav-layout id="sidenav-layout" appName="QCM" title="Application" #layout>
+  <app-page-layout>
 
 
-  <!--  create new-->
-  <button id="add-btn-selectable-list" mat-fab (click)="list.onCreateElement($event)" color="primary" class="fab-bottom"
-          matTooltip="{{'qcm.selectable-list.menu.new' | translate }}" [hidden]="filter">
-    <mat-icon>add</mat-icon>
-  </button>
+    <!--  create new-->
+    <button id="add-btn-selectable-list" mat-fab (click)="list.onCreateElement($event)" color="primary"
+            class="fab-bottom"
+            matTooltip="{{'qcm.selectable-list.menu.new' | translate }}" [hidden]="filter">
+      <mat-icon>add</mat-icon>
+    </button>
 
-  <div fxlayout [hidden]="filter">
+    <div fxlayout [hidden]="filter">
 
-    <app-selectable-list #list [store]="uploadStore"
-                         [sortBy]="'id'"
-                         (created)="create()">
-
-
-      <div toolbar-view style="display: flex;">
-         <span *ngIf="!list.isSelectedMode()"
-               style="align-items: center "> {{ "qcm.upload.list.title" | translate}}</span>
-        <span *ngIf="list.isSelectedMode()"
-              style="align-items: center ">{{ "qcm.upload.upload.title" |translate }}</span>
-      </div>
-
-      <div toolbar-view class="spacer"></div>
-
-      <app-upload-nav-list elements-view [elements$]="uploadStore.elements$"></app-upload-nav-list>
-      <app-upload-nav-list selected-view [elements$]="uploadStore.selected$"></app-upload-nav-list>
+      <app-selectable-list #list [store]="uploadStore"
+                           [sortBy]="'id'"
+                           (created)="create()">
 
 
-    </app-selectable-list>
+        <div toolbar-view style="display: flex;">
+          <!--         <span *ngIf="!list.isSelectedMode()"-->
+          <!--               style="align-items: center "> {{ "qcm.upload.list.title" | translate}}</span>-->
+          <!--        <span *ngIf="list.isSelectedMode()"-->
+          <!--              style="align-items: center ">{{ "qcm.upload.upload.title" |translate }}</span>-->
+        </div>
 
-    <app-material-file-upload #upload [accept]="accept" [target]="apiEndPoint"
-                              (complete)="onFileComplete($event)"></app-material-file-upload>
+        <!--      <div toolbar-view class="spacer"></div>-->
 
-  </div>
+        <app-upload-nav-list elements-view [elements$]="uploadStore.elements$"></app-upload-nav-list>
+        <app-upload-nav-list selected-view [elements$]="uploadStore.selected$"></app-upload-nav-list>
 
 
-  <!--  <mat-card>-->
-  <!--    <mat-card-header>ex:</mat-card-header>-->
-  <!--    <mat-card-content>-->
-  <!--      <div #content>{{sample |json}}</div>-->
-  <!--    </mat-card-content>-->
+      </app-selectable-list>
 
-  <!--  </mat-card>-->
+      <app-material-file-upload #upload [accept]="accept" [target]="apiEndPoint"
+                                (complete)="onFileComplete($event)"></app-material-file-upload>
 
-</app-page-layout>
+    </div>
+
+
+    <!--  <mat-card>-->
+    <!--    <mat-card-header>ex:</mat-card-header>-->
+    <!--    <mat-card-content>-->
+    <!--      <div #content>{{sample |json}}</div>-->
+    <!--    </mat-card-content>-->
+
+    <!--  </mat-card>-->
+
+  </app-page-layout>
+</app-sidenav-layout>

@@ -9,7 +9,7 @@ import {QuestionnaireQuestionListStore} from '@app/features/stores/questionnaire
 import {TagListStore} from '@app/features/stores/tag-list-store.service';
 import {TagModule} from '@app/features/tag/tag.module';
 import {UploadModule} from '@app/features/upload/upload.module';
-import {UserModule} from '@app/features/user/user.module';
+import {AccountModule} from '@app/features/account/account.module';
 import {AngularModule} from '@app/shared/angular/angular.module';
 import {MaterialComponentsModule} from '@app/shared/material-components/material-components.module';
 import {MaterialModule} from '@app/shared/material/material.module';
@@ -30,7 +30,7 @@ import {SearchStore} from './services/questionnaire-search-store.service';
     AngularModule,
     MaterialModule,
     QuestionModule,
-    UserModule,
+    AccountModule,
     CategoryModule,
     TagModule,
     UploadModule,

@@ -1,8 +1,7 @@
 
 
-  <mat-card class="mat-elevation-z0">
+  <mat-card class="mat-elevation-z0" *ngIf="showSelected">
 <!--    <mat-card-header>Tags</mat-card-header>-->
-
     <mat-chip-list>
       <mat-chip *ngFor="let tag of selected " (removed)="unSelectItem(tag)" selected="true"
                 color="primary">{{tag.libelle}}
@@ -10,6 +9,7 @@
       </mat-chip>
     </mat-chip-list>
   </mat-card>
+
   <mat-card class="mat-elevation-z0">
     <mat-chip-list [(ngModel)]="letter" [selectable]="selectable">
       <mat-chip (click)="selectLetter('')">All</mat-chip>

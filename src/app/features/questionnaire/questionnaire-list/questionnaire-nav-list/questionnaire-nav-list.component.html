@@ -3,19 +3,20 @@
 
   <mat-list-item class="list mat-elevation-z2 list-item"
                  attr.entityId="questionnaireId_{{questionnaire.uuid}}"
-                 *ngFor="let questionnaire of elements$ | async as q; index as i" [routerLink]="['/questionnaires/'+ questionnaire.uuid ]">
+                 *ngFor="let questionnaire of elements$ | async as q; index as i" >
 
-    <button mat-icon-button matListAvatar (click)="setClickedRow(questionnaire)">
+    <button mat-icon-button matListAvatar (click)="setClickedRow($event, questionnaire);" onclick="this.blur()">
       <mat-icon matListIcon *ngIf="!isSelected(questionnaire)">question_answer</mat-icon>
       <mat-checkbox *ngIf="isSelected(questionnaire)" matListAvatar
                     [checked]="isSelected(questionnaire)"></mat-checkbox>
     </button>
 
-    <div style="overflow: hidden">
+
+    <div style="overflow: hidden" (click)="navigate(questionnaire)">
       <div>
         <p class="cursor-pointer"
-         matTooltip="{{questionnaire.title}}" style="overflow: hidden;white-space:nowrap;margin-bottom: 1px">
-        {{questionnaire.title}}</p>
+           matTooltip="{{questionnaire.title}}" style="overflow: hidden;white-space:nowrap;margin-bottom: 1px" >
+          {{questionnaire.title}}</p>
       </div>
       <div>
         <p style="overflow: hidden;white-space:nowrap;margin-bottom: 1px" class="md-caption">
@@ -32,24 +33,31 @@
     <span fxShow.xs="false" *ngFor="let tag of questionnaire.tags" class="label label-info list-item-tag"
           (click)="swapTag(tag)">{{tag.libelle}}</span>
 
-    <span fxShow.xs="false" *ngIf="questionnaire.status == 'TO_BE_VALIDATED'"   class="label label-grey">{{'qcm.status.id.'+questionnaire.status |translate }}</span>
-    <span fxShow.xs="false" *ngIf="questionnaire.status == 'DRAFT'" class="label label-grey">{{'qcm.status.id.'+questionnaire.status |translate }}</span>
+    <span fxShow.xs="false" *ngIf="questionnaire.status == 'TO_BE_VALIDATED'"
+          class="label label-grey">{{'qcm.status.id.' + questionnaire.status |translate }}</span>
+    <span fxShow.xs="false" *ngIf="questionnaire.status == 'DRAFT'"
+          class="label label-grey">{{'qcm.status.id.' + questionnaire.status |translate }}</span>
 
     <span *ngIf="questionnaire.published" class="label"> <mat-icon color="primary">public</mat-icon></span>
     <span *ngIf="!questionnaire.published" class="label_off"> <mat-icon>public_off</mat-icon></span>
     <!--  end destktop -->
 
-    <button mat-icon-button matTooltip="More actions" [matMenuTriggerFor]="questionnaireMenu">
+
+    <button mat-icon-button matTooltip="More actions" [matMenuTriggerFor]="questionnaireMenu" >
       <mat-icon>more_vert</mat-icon>
     </button>
+
+
     <!-- line menu -->
     <mat-menu #questionnaireMenu="matMenu" yPosition="below">
+
       <button mat-menu-item [routerLink]="['/questionnaires/'+ questionnaire.uuid ]">
-        <mat-icon>details</mat-icon>
-        Details
+        <mat-icon>wysiwyg</mat-icon>
+        {{'qcm.questionnaire.menu.view' |translate}}
       </button>
+
       <button class="plMenuCSS" mat-menu-item matTooltip="{{'qcm.upload.list.menu.export.word' |translate}}"
-              (click)="download(questionnaire,'docx')" color="primary">
+              (click)="download(questionnaire,'docx')" color="primary" >
         <mat-icon>cloud_download</mat-icon>
         {{'qcm.upload.list.menu.export.word' |translate}}
       </button>

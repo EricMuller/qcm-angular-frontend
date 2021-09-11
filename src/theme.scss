@@ -23,6 +23,16 @@
   @include angular-material-theme($light-blue-theme);
 }
 
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto, RobotoDraft, monospace',
+
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+
+@include angular-material-typography($custom-typography);
+@include mat-core($custom-typography);
+
 //html, body {
 //  background-color: #00E676;
 //}

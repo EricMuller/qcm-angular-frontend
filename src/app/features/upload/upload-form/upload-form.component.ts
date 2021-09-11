@@ -52,7 +52,7 @@ export class UploadFormComponent extends EditableFormComponent<Upload, string> i
 
   ngOnInit() {
     this.createForm();
-    this.toggleEdition(this.edition);
+    this.startEdition();
   }
 
   protected createForm(): void {

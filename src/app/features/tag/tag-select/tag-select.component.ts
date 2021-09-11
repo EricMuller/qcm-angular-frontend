@@ -1,10 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
-import {Tag} from '@app/features/qcm-rest-api/model/tag.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {MatChip} from '@angular/material';
-import {Letter} from '@app/features/tag/tag-select/Letter';
+import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
+import {Tag} from '@app/features/qcm-rest-api/model/tag.model';
 import {TagListStore} from '@app/features/stores/tag-list-store.service';
+import {Letter} from '@app/features/tag/tag-select/Letter';
 
 @Component({
   selector: 'app-tag-select',
@@ -21,9 +21,14 @@ export class TagSelectComponent implements OnInit {
   public removable = true;
   public selectable = true;
   public letter;
+  @Input()
+  public showSelected = true;
 
-  @Output('onSelected')
+  @Output()
   private onSelected = new EventEmitter<Tag[]>();
+
+  @Input()
+  private question = false;
 
   constructor(private tagListStore: TagListStore) {
 
@@ -39,10 +44,20 @@ export class TagSelectComponent implements OnInit {
       }
     });
 
-    this.tagListStore.getPage(0, 100, 'libelle');
+  }
+
+  private getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string) {
+
+    if (this.question) {
+      this.tagListStore.getPageQuestionTagByCriteria(criteria, page, size, '');
+    } else {
+      this.tagListStore.getPageByCriteria(criteria, page, size, sort);
+    }
   }
 
   ngOnInit() {
+    const criteria = new Criteria('used', 'true');
+    this.getPageByCriteria([criteria], 0, 100, 'libelle');
   }
 
   private buildLetters() {
@@ -73,7 +88,7 @@ export class TagSelectComponent implements OnInit {
   public selectLetter(letter) {
     const criteria: Criteria[] = [new Criteria(letter, 'firstLetter')];
 
-    this.tagListStore.getPageByCriteria(criteria, 0, 100, 'libelle');
+    this.getPageByCriteria(criteria, 0, 100, 'libelle');
   }
 
 }

@@ -6,29 +6,42 @@
     <mat-toolbar>
       <mat-toolbar-row>
         <!-- select All-->
-        <button id="select_all-btn-selectable-list" *ngIf="!isSelectedMode()" mat-icon-button (click)="selectAll()"
-                matTooltip="{{'qcm.selectable-list.menu.selectAll' | translate }}">
+        <button id="select_all-btn-selectable-list" *ngIf="!isSelectedMode() && ((store.selectedSize$ | async)> 0)" mat-icon-button (click)="selectAll()"
+                matTooltip="{{'qcm.selectable-list.menu.selectAll' | translate }}"
+                matBadge="{{store.selectedSize$ |async}}"
+                matBadgeColor="primary"
+                onclick="this.blur()">
                 <mat-icon>select_all</mat-icon>
         </button>
+
+
         <!-- unselect All-->
         <button id="unselect_all-btn-selectable-list" *ngIf="isSelectedMode()" mat-icon-button (click)="unSelectAll()"
-                matTooltip="{{'qcm.selectable-list.menu.unselectAll' | translate }}">
-          <mat-icon>delete_sweep</mat-icon>
+                matTooltip="{{'qcm.selectable-list.menu.unselectAll' | translate }}"
+                matBadge="{{store.selectedSize$ |async}}"
+                matBadgeColor="accent"
+                onclick="this.blur()">
+                  <mat-icon>delete_outline</mat-icon>
         </button>
 
-        <ng-content toolbar-view></ng-content>
-
-        <button id="visibility-btn-selectable-list" mat-icon-button matBadge="{{store.selectedSize$ |async}}"
-                matBadgePosition="before"
+        <button id="visibility-btn-selectable-list" mat-icon-button
+                matBadgePosition="after"
                 matBadgeColor="accent"
                 matTooltip="{{'qcm.selectable-list.menu.viewSelected' | translate }}"
-                *ngIf="modeSelection$ |async" (click)="swapSelectedMode()">
+                *ngIf="modeSelection$ |async" (click)="swapSelectedMode()"
+                onclick="this.blur()">
           <mat-icon>visibility</mat-icon>
         </button>
 
-        <mat-paginator fxHide fxShow.gt-xs="true" #paginator (page)="onPaginateChange($event)" [hidden]="totalElements <= pageSize || isSelectedMode() "
-                       [length]="totalElements" [pageSize]="pageSize" [showFirstLastButtons]="true"
-                       hidePageSize="true" itemsPerPageLabel=''></mat-paginator>
+        <ng-content toolbar-view>
+
+        </ng-content>
+
+<!--        <div toolbar-view style="display: flex;">-->
+<!--        <span *ngIf="(store.selectedSize$ | async)> 0">{{store.selectedSize$ | async}}</span>-->
+<!--        </div>-->
+
+
 
         <!--  start mobile -->
         <button fxShow.gt-xs="false" mat-icon-button (click)="refresh(true);"
@@ -36,14 +49,22 @@
           <mat-icon>replay</mat-icon>
         </button>
         <!--  end mobile -->
-        <mat-spinner [diameter]="16" [hidden]="! (loadingData$ |async)"></mat-spinner>
 
         <button id="delete-btn-selectable-list" *ngIf="(store.selectedSize$ | async)> 0" mat-icon-button
                 (click)="deleteSelectedElements()"
-                matTooltip="{{'qcm.selectable-list.menu.deleteAll' | translate }}" color="accent">
+                matTooltip="{{'qcm.selectable-list.menu.deleteAll' | translate }}" color="accent"
+        >
           <mat-icon>delete</mat-icon>
         </button>
 
+        <div class="spacer"></div>
+
+
+        <mat-spinner [diameter]="16" [hidden]="! (loadingData$ |async)"></mat-spinner>
+
+        <mat-paginator fxHide fxShow.gt-xs="true" #paginator (page)="onPaginateChange($event)" [hidden]="totalElements <= pageSize || isSelectedMode() "
+                       [length]="totalElements" [pageSize]="pageSize" [showFirstLastButtons]="false"
+                       hidePageSize="true" itemsPerPageLabel=''></mat-paginator>
         <!--      <button mat-icon-button (click)="onCreateElement($event)"-->
         <!--              matTooltip="{{'qcm.selectable-list.menu.new' | translate }}">-->
         <!--        <mat-icon>add_circle_outline</mat-icon>-->
@@ -56,7 +77,7 @@
         <!--          <mat-icon>visibility</mat-icon>-->
         <!--        </button>-->
 
-        <span [hidden]="totalElements == 0 || totalElements > pageSize" matBadge="{{totalElements}}" matBadgeColor="primary"></span>
+<!--        <span [hidden]="totalElements == 0 || totalElements > pageSize" matBadge="{{totalElements}}" matBadgeColor="primary"></span>-->
       </mat-toolbar-row>
 
     </mat-toolbar>

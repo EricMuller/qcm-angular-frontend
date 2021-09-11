@@ -15,13 +15,13 @@ const routes: Routes = [
   {
     path: '', component: QuestionnaireListComponent, canActivate: [AppGuard],
     data: {
-      breadcrumb: null,
+      pageTitle: 'menu.questionnaires',
     }
   },
   {
     path: ':uuid/questions', component: QuestionnaireQuestionListComponent, canActivate: [AppGuard],
     data: {
-      breadcrumb: 'Questions',
+      pageTitle: 'menu.page.questionnaire.questions',
     },
     resolve: {
       questionnaire: QuestionnaireResolver,
@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: ':uuid', component: QuestionnaireFormComponent, canActivate: [AppGuard],
     data: {
-      breadcrumb: 'Questionnaire',
+      pageTitle: 'menu.page.questionnaire',
     },
     resolve: {
       questionnaire: QuestionnaireResolver,

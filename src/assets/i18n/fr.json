@@ -1,7 +1,8 @@
 {
+  "app.name": "QCM",
   "qcm.questionnaire.create.title": "Creer un nouveau questionnaire",
   "qcm.questionnaire.edit.title": "Editer le questionnaire",
-  "qcm.questionnaire.view.title": "Questionnaire ",
+  "qcm.questionnaire.view.title": " ",
   "qcm.questionnaire.menu.filter": "Filtrer les questionnaires",
 
   "qcm.questionnaire.filter.title": "Filtrer Mes Questionnaires",
@@ -11,6 +12,7 @@
 
   "qcm.questionnaire.menu.category.create" : "Creer une nouvelle categorie",
   "qcm.questionnaire.menu.questions.list" : "Voir les questions du questionnaire",
+  "qcm.questionnaire.menu.view" : "Voir le questionnaire",
 
   "qcm.questionnaire.form.input.title.placeholder" : "Titre",
   "qcm.questionnaire.form.input.website.placeholder":  "Site Web",
@@ -64,9 +66,9 @@
 
   "qcm.question.list.createdAt": "Crée le ",
 
-  "qcm.questionnaire.question.list.title": "Les Questions du questionnaire",
-  "qcm.questionnaire.question.list.title.short": "Les questions du questionnaire",
-  "qcm.questionnaire.question.selected.title" : "Liste des Questions selectionnée(s) du questionnaire",
+  "qcm.questionnaire.question.list.title": "Les Questions",
+  "qcm.questionnaire.question.list.title.short": "Les questions",
+  "qcm.questionnaire.question.selected.title" : "Les Questions selectionnée(s) ",
 
   "qcm.questionnaire.question.selected.validate" : "Valider les questions selectionées",
 
@@ -84,7 +86,13 @@
   "menu.import" : "Importations",
   "menu.upload" : "Mes Téléchargements",
   "menu.about" : "A propos",
+  "menu.account" : "Mon compte",
   "menu.login": "Connection",
+
+  "menu.page.question" : "Ma Question",
+  "menu.page.questionnaire" : "Mon Questionnaire",
+  "menu.page.questionnaire.questions" : "Les Questions",
+  "menu.page.account" : "Mon compte",
 
   "qcm.selectable-list.menu.selectAll": "Selectionner tous les enregistrements de la Page",
   "qcm.selectable-list.menu.unselectAll": "Deselectionner tous les enregistrements",
@@ -104,10 +112,16 @@
   "qcm.question.filtre.title": "Filtrer les questions",
   "qcm.question.filtre.found": "{{nb}} enregistrement(s)",
   "qcm.tag-select.select-letter":"Filtrer par Lettre" ,
-  "qcm.tag-select.title": "Mes Etiquetes",
+  "qcm.tag-select.title": "Etiquetes selectionnées",
 
   "qcm.questionnaire-select.select-letter":"Filtrer par Lettre" ,
-  "qcm.questionnaire-select.title": "Mes Questionnaires",
+  "qcm.questionnaire-select.title": "Questionnaires selectionnés",
+
+  "qcm.statuses-select.title": "Statuts selectionnés",
+
+  "qcm.questionnaire.title": "Questionnaires",
+  "qcm.status.title": "Statuts",
+  "qcm.tag.title" : "Etiquetes",
 
   "qcm.form.menu.new": "Creer un enregistremnt",
   "qcm.form.menu.cancel": "Annuler",
@@ -122,7 +136,9 @@
   "qcm.form.toggle.off":"Annuler edition",
   "qcm.form.messages.validation_required": "Le formulaire n'est pas valide, verifier la saisie !",
 
-  "qcm.import.title": "Selectionner un fichier json à importer",
+  "qcm.form.messages.onSaveForm" : "Sauvegarde ok",
+
+  "qcm.import.title",: "Selectionner un fichier json à importer",
   "qcm.upload.title": "Selectionner un fichier json à télécharger",
 
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Question} from '@app/features/qcm-rest-api/model/question.model';
-import {Page} from '@app/features/qcm-rest-api/services/page';
+import {PagedModel} from '@app/features/qcm-rest-api/services/pagedModel';
 import {QuestionService} from '@app/features/qcm-rest-api/services/question.service';
 import {QuestionnaireListStore} from '@app/features/stores/questionnaire-list-store.service';
 import {SelectStoreAdapter} from '@app/features/stores/selection-store';
@@ -40,7 +40,7 @@ export class QuestionListStore extends SelectStoreAdapter<Question> implements C
     return this.questionService.getQuestionByUuid(uuid);
   }
 
-  getPage(page ?: number, size ?: number, sort ?: string): Observable<Page<Question>> {
+  getPage(page ?: number, size ?: number, sort ?: string): Observable<PagedModel<Question>> {
     const obs = this.questionService.getQuestions(page, size, sort);
     obs.subscribe(
       p => {
@@ -71,13 +71,13 @@ export class QuestionListStore extends SelectStoreAdapter<Question> implements C
 
   saveElement(element: Question): Observable<Question> {
     if (element.uuid) {
-      return this.questionService.putQuestion(element);
+      return this.questionService.putQuestion(element.uuid, element);
     } else {
       return this.questionService.postQuestion(element);
     }
   }
 
-  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<Page<Question>> {
+  getPageByCriteria(criteria: Criteria[], page ?: number, size ?: number, sort ?: string): Observable<PagedModel<Question>> {
 
     console.log(criteria);
     const obs = this.questionService

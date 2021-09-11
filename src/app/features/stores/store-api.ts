@@ -1,6 +1,6 @@
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Entity} from '@app/features/qcm-rest-api/model/entity';
-import {Page} from '@app/features/qcm-rest-api/services/page';
+import {PagedModel} from '@app/features/qcm-rest-api/services/pagedModel';
 import {Observable} from 'rxjs';
 
 
@@ -17,14 +17,14 @@ export interface ListStore<T extends Entity> {
 
   deleteElements(elements: T[]): void;
 
-  getPage(page?: number, size?: number, sort?: string): Observable<Page<T>>;
+  getPage(page?: number, size?: number, sort?: string): Observable<PagedModel<T>>;
 
 }
 
 export interface ListSelectStore<T extends Entity> {
 
   readonly deleted$: Observable<any>;
-  readonly page$: Observable<Page<T>>;
+  readonly page$: Observable<PagedModel<T>>;
   readonly selected$: Observable<T[]>;
   readonly selectedSize$: Observable<number>;
 
@@ -38,7 +38,7 @@ export interface ListSelectStore<T extends Entity> {
 
   unSelectAllElement(): void;
 
-  publishPage(p: Page<T>);
+  publishPage(p: PagedModel<T>);
 
   addPageElement(q: T): Observable<T>;
 
@@ -54,7 +54,7 @@ export interface CriteriaStore<T> extends ListSelectStore<T>, ListStore<T> {
   readonly criteria$: Observable<Criteria[]>;
   readonly criteriaSize$: Observable<number>;
 
-  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<T>>;
+  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<PagedModel<T>>;
 
   clearCriteria();
 

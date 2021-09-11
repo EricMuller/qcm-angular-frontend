@@ -2,10 +2,9 @@
   <!--(mouseover)='over(item)'-->
 
   <mat-list-item class="list mat-elevation-z2 list-item" *ngFor="let item of elements$ |async as q; index as i"
+                 attr.entityId="questionId_{{item.uuid}}" (click)="navigate(item)">
 
-                 attr.entityId="questionId_{{item.uuid}}" (click)="openQuestionDialog(item)">
-
-    <button mat-icon-button matListAvatar (click)="setClickedRow(item)">
+    <button mat-icon-button matListAvatar (click)="setClickedRow($event,item)"  onclick="this.blur()" >
       <mat-icon matListIcon *ngIf="!isSelected(item)">question_answer</mat-icon>
       <mat-checkbox *ngIf="isSelected(item)" matListAvatar [checked]="isSelected(item)"></mat-checkbox>
     </button>
@@ -15,9 +14,6 @@
         <p class="cursor-pointer"   style="overflow: hidden;white-space:nowrap;margin-bottom: 1px" matTooltip="{{item.question}}"> {{item.question}} </p>
       </div>
       <div>
-
-
-
       </div>
     </div>
 
@@ -37,7 +33,7 @@
     </button>
     <!-- line menu -->
     <mat-menu #questionMenu="matMenu" yPosition="below">
-      <button mat-menu-item  (click)="openQuestionDialog(item)">
+      <button mat-menu-item  (click)="navigate(item)">
         <mat-icon>details</mat-icon>
         Details
       </button>

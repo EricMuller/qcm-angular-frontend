@@ -1,0 +1,103 @@
+<div id='tagsSelected_id' class="mat-elevation-z0"
+          *ngIf="tagsSelected?.length > 0">
+  <mat-label>{{'qcm.tag-select.title' | translate}}</mat-label>
+  <mat-chip-list >
+
+    <mat-chip *ngFor="let tag of tagsSelected " (removed)="unSelectTag(tag)" selected="true"
+              color="primary">{{tag.libelle}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>
+
+<div id='tags_id' *ngIf="opened">
+  <mat-label>{{'qcm.tag.title' | translate}}</mat-label>
+  <mat-chip-list [selectable]="true">
+    <mat-chip *ngFor="let tag of tags " [selectable]="selectable" (click)="selectTag(tag)">{{tag.libelle}}   </mat-chip>
+    <mat-chip mat-icon-button (click)="refreshDataTags()">
+      <mat-icon>cached</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>
+
+<div id="questionnairesSelected_id"
+     *ngIf="questionnairesSelected?.length > 0">
+  <mat-label>{{'qcm.questionnaire-select.title' | translate}}</mat-label>
+  <mat-chip-list>
+    <mat-chip *ngFor="let questionnaire of questionnairesSelected " selected="true"
+              color="primary">{{questionnaire.title}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>
+
+<div id="questionnaires_id" *ngIf="opened">
+  <mat-label>{{'qcm.questionnaire.title' | translate}}</mat-label>
+    <mat-chip-list [selectable]="true">
+      <mat-chip *ngFor="let questionnaire of questionnaires"
+                [selectable]="selectable">{{questionnaire.title}}  </mat-chip>
+      <mat-chip mat-icon-button (click)="refreshDataQuestionnaires()">
+        <mat-icon>cached</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  <!--  <button mat-icon-button (click)="refresh()">-->
+  <!--    <mat-icon>cached</mat-icon>-->
+  <!--  </button>-->
+</div>
+
+
+<div id="statusSelected_id" *ngIf="statusesSelected.length > 0">
+    <mat-label>{{'qcm.statuses-select.title' | translate}}</mat-label>
+    <mat-chip-list [selectable]="true">
+      <mat-chip *ngFor="let status of statusesSelected" (removed)="onUpdated(true);" selected="true"
+                color="primary">{{status}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  <!--  <button mat-icon-button (click)="refresh()">-->
+  <!--    <mat-icon>cached</mat-icon>-->
+  <!--  </button>-->
+</div>
+
+<div id="status_id" *ngIf="opened">
+    <mat-label>{{'qcm.status.title' | translate}}</mat-label>
+    <mat-chip-list [selectable]="true">
+      <mat-chip *ngFor="let status of statuses" (removed)="onUpdated(true);"
+                [selectable]="selectable">{{status}}</mat-chip>
+      <mat-chip mat-icon-button (click)="refreshDataStatuses()">
+        <mat-icon>cached</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+
+  <!--  <button mat-icon-button (click)="refresh()">-->
+  <!--    <mat-icon>cached</mat-icon>-->
+  <!--  </button>-->
+</div>
+
+<!--<div *ngIf="tags.length > 0">-->
+<!--  <mat-card class="mat-elevation-z0">-->
+<!--  <mat-chip-list [selectable]="true"  >-->
+<!--    <mat-chip *ngFor="let tag of tags"  (removed)="onUpdated(true);"-->
+<!--              [selectable] ="selectable" >{{tag.libelle}}-->
+
+<!--    </mat-chip>-->
+<!--    <mat-chip mat-icon-button (click)="refreshTag()"><mat-icon>cached</mat-icon></mat-chip>-->
+<!--  </mat-chip-list>-->
+<!--  </mat-card>-->
+<!--&lt;!&ndash;  <button mat-icon-button (click)="refresh()">&ndash;&gt;-->
+<!--&lt;!&ndash;    <mat-icon>cached</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;  </button>&ndash;&gt;-->
+<!--</div>-->
+
+
+<!--<p>old select</p>-->
+<!--<div fxLayout fxLayoutAlign="center start" fxLayout="column" [hidden]="!edit">-->
+<!--  <app-tag-select #tagSelect [showSelected]="false" (onSelected)="onSelectedTags($event)"-->
+<!--                  [question]="true"></app-tag-select>-->
+<!--</div>-->
+
+<!--<div fxLayout fxLayoutAlign="center start" fxLayout="column" [hidden]="!edit">-->
+<!--  <app-questionnaire-select #questionnaireSelect [showSelected]="false"-->
+<!--                            (onSelected)="onSelectedQuestionnaires($event)"></app-questionnaire-select>-->
+<!--</div>-->
+

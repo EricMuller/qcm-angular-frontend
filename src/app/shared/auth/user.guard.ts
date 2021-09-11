@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot} from '@angular/router';
-import {User} from '@app/core/auth/user.model';
+import {Account} from '@app/core/auth/account.model';
 import {UserGuardService} from '@app/shared/auth/user-guard.service';
 
 import {Observable} from 'rxjs';
@@ -21,8 +21,9 @@ export class UserGuard implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.userService
       .getCurrentUser()
-      .pipe(take(1), map(
-        (user: User) => {
+      .pipe(
+        take(1),
+        map((user: Account) => {
           return user.userName !== null && user.uuid !== undefined;
         })
       );

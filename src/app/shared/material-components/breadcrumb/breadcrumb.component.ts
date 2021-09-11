@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {AppState} from '@app/app/state/app-state.service';
-import {ClearCurrentQuestionnaireAction} from '@app/app/state/clear-current-questionnaire-action';
-import {NavigationModel} from '@app/app/state/navigation-model';
+import {ClearCurrentQuestionnaireAction} from '@app/app/state/navigation/navigation-actions';
+import {MenuItemModel} from '@app/app/state/navigation/navigation-model';
 import {KeycloakGuard} from '@app/core/auth/keycloak.guard';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
@@ -20,11 +20,11 @@ export interface IBreadCrumb {
 })
 export class BreadcrumbComponent implements OnInit {
 
-  @Select(AppState.breadcrumb) public breadcrumb$: Observable<NavigationModel[]>;
+  @Select(AppState.breadcrumb) public breadcrumb$: Observable<MenuItemModel[]>;
 
   public breadcrumbs: IBreadCrumb[];
 
-  constructor(private keycloakGuardService: KeycloakGuard, private store: Store,
+  constructor(private keycloakGuard: KeycloakGuard, private store: Store,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
     // this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
@@ -42,8 +42,8 @@ export class BreadcrumbComponent implements OnInit {
     }
 
 
-  public isLoggedIn(): boolean {
-    return this.keycloakGuardService.isLoggedIn();
+  public isLoggedIn(): Observable<boolean> {
+    return this.keycloakGuard.isLoggedIn();
   }
 
   clear() {
@@ -58,7 +58,7 @@ export class BreadcrumbComponent implements OnInit {
    */
   buildBreadCrumb(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadCrumb[] = []): IBreadCrumb[] {
 
-    debugger
+
     // If no routeConfig is avalailable we are on the root path
     let label = route.routeConfig && route.routeConfig.data ? route.routeConfig.data.breadcrumb : '';
     let isClickable = route.routeConfig && route.routeConfig.data && route.routeConfig.data.isClickable;
@@ -90,6 +90,5 @@ export class BreadcrumbComponent implements OnInit {
     }
     return newBreadcrumbs;
   }
-
 
 }

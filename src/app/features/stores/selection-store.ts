@@ -1,6 +1,6 @@
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Entity} from '@app/features/qcm-rest-api/model/entity';
-import {Page} from '@app/features/qcm-rest-api/services/page';
+import {PagedModel} from '@app/features/qcm-rest-api/services/pagedModel';
 import {BehaviorSubject, Observable, of, ReplaySubject, Subject} from 'rxjs';
 import {ListSelectStore} from './store-api';
 
@@ -11,11 +11,11 @@ export class SelectStoreAdapter<T extends Entity> implements ListSelectStore<T> 
 
   private criteriaSubject: BehaviorSubject<Criteria[]> = new BehaviorSubject([]) as BehaviorSubject<Criteria[]>;
 
-  protected page: Page<T> = new Page<T>();
+  protected page: PagedModel<T> = new PagedModel<T>();
 
-  private pageSubject: Subject<Page<T>> = new ReplaySubject<Page<T>>(1);
+  private pageSubject: Subject<PagedModel<T>> = new ReplaySubject<PagedModel<T>>(1);
 
-  readonly page$: Observable<Page<T>> = this.pageSubject.asObservable();
+  readonly page$: Observable<PagedModel<T>> = this.pageSubject.asObservable();
 
   private selectedSubject: BehaviorSubject<any[]> = new BehaviorSubject([]) as BehaviorSubject<T[]>;
 
@@ -66,7 +66,7 @@ export class SelectStoreAdapter<T extends Entity> implements ListSelectStore<T> 
     this.criteriaSizeSubject.next(this.criteria.length);
   }
 
-  publishPage(p: Page<T>) {
+  publishPage(p: PagedModel<T>) {
     this.page = p;
     this.pageSubject.next(this.page);
     this.elementsSubject.next(this.page.content);
@@ -101,10 +101,11 @@ export class SelectStoreAdapter<T extends Entity> implements ListSelectStore<T> 
   }
 
   selectElement(q: T, select: boolean) {
-
+ debugger
     const itemIndex = this.selected.findIndex(item => item.uuid === q.uuid);
     if (select && itemIndex === -1) {
       this.selected.push(q);
+      console.info('select ' + q.uuid);
       this.selectedSubject.next(this.selected);
       this.selectedSizeSubject.next(this.selected.length);
     } else {

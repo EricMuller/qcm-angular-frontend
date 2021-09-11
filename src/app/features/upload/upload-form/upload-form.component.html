@@ -16,7 +16,7 @@
     <mat-icon>reply</mat-icon>
   </button>
 
-  <button fxShow.xs="false" mat-fab (click)="toggleEdition(true)" color="primary" class="fab-bottom" [hidden]="edition"
+  <button fxShow.xs="false" mat-fab (click)="startEdition()" color="primary" class="fab-bottom" [hidden]="edition"
           matTooltip="{{'qcm.form.toggle.on' | translate }}">
     <mat-icon>create</mat-icon>
   </button>
@@ -52,7 +52,7 @@
         <mat-icon>category</mat-icon>
       </button>
 
-      <button fxShow.gt-xs="false" mat-icon-button (click)="toggleEdition(true)" [hidden]="edition"
+      <button fxShow.gt-xs="false" mat-icon-button (click)="startEdition()" [hidden]="edition"
               matTooltip="{{'qcm.form.toggle.on' | translate }}" color="primary">
         <mat-icon>create</mat-icon>
       </button>

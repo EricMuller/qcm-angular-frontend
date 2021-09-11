@@ -15,9 +15,11 @@ if (environment.production) {
   enableProdMode();
 }
 
-KeycloakService.init()
-  .then(loadPlatform)
-  .catch(e => {
-    console.error(e);
-  });
+loadPlatform();
+
+// KeycloakService.init()
+//   .then(loadPlatform)
+//   .catch(e => {
+//     console.error(e);
+//   });
 

@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray} from '@angular/forms';
 import {MatChipInputEvent, MatDialog, MatDialogConfig} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SetCurrentQuestionnaireAction} from '@app/app/state/set-current-questionnaire-action';
+import {SetCurrentQuestionnaireAction} from '@app/app/state/navigation/navigation-actions';
 import {NotifierService} from '@app/core/notifications/simple-notifier.service';
 import {CategoryDialogComponent} from '@app/features/category/category-dialog/category-dialog.component';
 import {Category} from '@app/features/qcm-rest-api/model/category.model';
@@ -29,15 +29,11 @@ import {MdEditorOption} from 'ngx-markdown-editor';
 })
 export class QuestionnaireFormComponent extends EditableFormComponent<Questionnaire, string> implements OnInit, AfterViewInit {
 
-  @Input()
-  public questionnaire: Questionnaire;
-
   public categories: Category[];
   public status = [];
   public description: string;
 
   public date: Date;
-
 
   public options: MdEditorOption = {
     showPreviewPanel: true,
@@ -65,24 +61,35 @@ export class QuestionnaireFormComponent extends EditableFormComponent<Questionna
     this.edition = route.snapshot.params.uuid <= 0;
     this.status = this.getStatusEnum();
     this.route.data.subscribe(data => {
-      this.questionnaire = data.questionnaire;
-      this.description = this.questionnaire.description;
-      this.date = new Date(this.questionnaire.dateCreation);
+      debugger
       this.categories = data.categories;
-      if (this.questionnaire.uuid) {
-        this.store.dispatch(new SetCurrentQuestionnaireAction({uuid: this.questionnaire.uuid, title: this.questionnaire.title}));
+      this.description = data.questionnaire.description;
+      this.date = new Date(data.questionnaire.dateCreation);
+      this.createForm(data.questionnaire);
+      if (data.questionnaire.uuid) {
+        if (this.edition) {
+          this.startEdition();
+        }
+        this.store.dispatch(new SetCurrentQuestionnaireAction({uuid: data.questionnaire.uuid, title: data.questionnaire.title}));
       }
       // this.currentQuestionnaire$ = this.store.select(state => state.currentQuestionnaire);
     });
   }
 
-  protected createForm(): void {
-    this.form = this.formBuilder.createForm(this.questionnaire);
+  protected createForm(model: Questionnaire): void {
+
+    console.log('QuestionnaireFormComponent createForm');
+    this.model = model;
+    this.form = this.formBuilder.createForm(this.model);
   }
 
   ngOnInit(): void {
-    this.createForm();
-    this.toggleEdition(this.edition);
+     console.log('QuestionnaireFormComponent ngOnInit()');
+
+     if (!this.form &&  this.model) {
+       this.createForm(this.model);
+     }
+
   }
 
   ngAfterViewInit(): void {
@@ -101,7 +108,7 @@ export class QuestionnaireFormComponent extends EditableFormComponent<Questionna
     const keys = Object.keys(ValidationStatus);
     const status = [];
     keys.map(Key => {
-      const type = {'id': Key, 'name': ValidationStatus[Key]};
+      const type = {id: Key, name: ValidationStatus[Key]};
       status.push(type);
     });
     return status;
@@ -151,20 +158,16 @@ export class QuestionnaireFormComponent extends EditableFormComponent<Questionna
   }
 
   protected onSaveForm(data) {
-    this.toggleEdition(false);
-    this.questionnaire = data;
-    this.form = this.formBuilder.createForm(this.questionnaire);
+    super.onSaveForm(data);
 
-    this.notifierService.notifySuccess(data.title, 2000);
-    this.store.dispatch(new SetCurrentQuestionnaireAction({uuid: this.questionnaire.uuid, title: this.questionnaire.title}));
-
-    this.router.navigate(['/questionnaires/' + this.questionnaire.uuid]);
+    this.store.dispatch(new SetCurrentQuestionnaireAction({uuid: this.model.uuid, title: this.model.title}));
+    this.router.navigate(['/questionnaires/' + this.model.uuid]);
 
   }
 
   protected onDeleteForm(t: Questionnaire) {
     this.notifierService.notifySuccess(t.title + ' deleted', 2000);
-    this.router.navigate(['/questionnaires/list']);
+    this.router.navigate(['/questionnaires/']);
   }
 
   public createCategory() {
@@ -175,7 +178,7 @@ export class QuestionnaireFormComponent extends EditableFormComponent<Questionna
     // this.openCategoryDialog();
     // this.questionnaireStore.unSelectAllElement();
     // this.questionnaireListStore.selectElement(this.questionnaire, true);
-    this.router.navigate(['/questionnaires/' + this.questionnaire.uuid + '/questions']);
+    this.router.navigate(['/questionnaires/' + this.model.uuid + '/questions']);
   }
 
   public nbSelectedQuestion(): number {
@@ -190,7 +193,7 @@ export class QuestionnaireFormComponent extends EditableFormComponent<Questionna
   public openCategoryDialog() {
     const config = new MatDialogConfig();
 
-    config.data = {category: new Category(CategoryType[CategoryType.QUESTIONNAIRE])}
+    config.data = {category: new Category(CategoryType[CategoryType.QUESTIONNAIRE])};
     config.panelClass = 'my-full-screen-dialog';
     const dialogRef = this.dialog.open(CategoryDialogComponent, config);
     dialogRef.afterClosed().subscribe(q => {

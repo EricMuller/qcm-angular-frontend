@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Upload} from '@app/features/qcm-rest-api/model/upload.model';
-import {Page} from '@app/features/qcm-rest-api/services/page';
+import {PagedModel} from '@app/features/qcm-rest-api/services/pagedModel';
 import {UploadService} from '@app/features/qcm-rest-api/services/upload.service';
 import {SelectStoreAdapter} from '@app/features/stores/selection-store';
 import {CriteriaStore, CrudStore} from '@app/features/stores/store-api';
@@ -20,7 +20,7 @@ export class UploadStore extends SelectStoreAdapter<Upload> implements CriteriaS
     return this.uploadService.getUploadByUuid(uuid);
   }
 
-  getPage(page?: number, size?: number, sort?: string): Observable<Page<Upload>> {
+  getPage(page?: number, size?: number, sort?: string): Observable<PagedModel<Upload>> {
     const obs = this.uploadService.getUploads(page, size, sort);
     obs.subscribe(
       p => {
@@ -56,7 +56,7 @@ export class UploadStore extends SelectStoreAdapter<Upload> implements CriteriaS
     }
   }
 
-  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Upload>> {
+  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<PagedModel<Upload>> {
 
     console.log(criteria);
     const obs = this.uploadService

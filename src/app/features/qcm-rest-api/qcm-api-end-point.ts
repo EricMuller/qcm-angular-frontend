@@ -3,7 +3,7 @@ import {InjectionToken} from '@angular/core';
 export interface QcmApiEndPoint {
   CATEGORY: string;
   TAGS: string;
-  USERS: string;
+  ACCOUNTS: string;
   QUESTIONNAIRES: string;
   QUESTIONS: string;
   UPLOADS: string;

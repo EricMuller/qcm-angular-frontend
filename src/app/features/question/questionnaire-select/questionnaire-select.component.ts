@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatChip} from '@angular/material';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Questionnaire} from '@app/features/qcm-rest-api/model/questionnaire.model';
@@ -22,6 +22,9 @@ export class QuestionnaireSelectComponent implements OnInit {
   public removable = true;
   public selectable = true;
   public letter;
+
+  @Input()
+  public showSelected = true;
 
   @Output('onSelected')
   private onSelected = new EventEmitter<Questionnaire[]>();

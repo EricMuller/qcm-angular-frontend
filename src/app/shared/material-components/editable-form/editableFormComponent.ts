@@ -1,29 +1,46 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {OnInit} from '@angular/core';
+import {EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
+import {AppState} from '@app/app/state/app-state.service';
+import {CurrentQuestionnaireModel} from '@app/app/state/navigation/navigation-model';
+import {Logger} from '@app/core/loggers/logger.service';
 import {NotifierService} from '@app/core/notifications/simple-notifier.service';
 import {CrudStore} from '@app/features/stores/store-api';
 import {TranslateService} from '@ngx-translate/core';
 
-export abstract class EditableFormComponent<T, K> implements OnInit {
+export abstract class EditableFormComponent<T, K> implements OnInit, OnDestroy {
 
+  edition: boolean;
 
-  public edition: boolean;
+  addOnBlur = true;
 
-  public addOnBlur = true;
+  form: FormGroup;
 
-  public form: FormGroup;
+  separatorKeysCodes = [ENTER, COMMA];
 
-  public separatorKeysCodes = [ENTER, COMMA];
+  @Input()
+  model: T;
+  copy: T;
 
-  protected constructor(protected crudStore: CrudStore<T, K>, protected  notifierService: NotifierService,
+  @Output() cancel = new EventEmitter<T>();
+  @Output() save = new EventEmitter<string>();
+
+  isActive = false;
+
+  protected constructor(protected crudStore: CrudStore<T, K>, protected notifierService: NotifierService,
                         protected router: Router, protected translateService: TranslateService) {
 
   }
 
   ngOnInit() {
+    this.isActive = true;
+    Logger.info('EditableFormComponent', 'ngOnInit');
+  }
 
+  ngOnDestroy() {
+    this.isActive = false;
+    Logger.info('EditableFormComponent', 'ngOnDestroy');
   }
 
   public validateAllFormFields(formGroup: FormGroup | FormArray) {
@@ -39,16 +56,34 @@ export abstract class EditableFormComponent<T, K> implements OnInit {
     });
   }
 
-  public toggleEdition(event: boolean) {
-
-    if (event) {
-      this.form.enable();
-      // this.enableForm();
-      this.notifierService.notifyInfo('Mode edition', 1000);
-    } else {
-      this.form.disable();
+  public cancelEdition(): void {
+    if (this.edition) {
+      this.endEdition();
+      this.cancel.emit(this.model);
+      if (this.copy) {
+        this.model = JSON.parse(JSON.stringify(this.copy));
+        this.createForm(this.model);
+      }
     }
-    this.edition = event;
+  }
+
+  public endEdition() {
+    this.form.disable();
+    this.edition = false;
+    this.onEndEdition();
+  }
+
+  public startEdition() {
+
+    if (this.model == null) {
+      Logger.info('EditableFormComponent', 'startEdition', ' model should be initialized in createForm()');
+    }
+    this.form.enable();
+    this.notifierService.notifyInfo('Mode edition', 1000);
+    this.copy = JSON.parse(JSON.stringify(this.model));
+    this.edition = true;
+    this.onStartEdition();
+
 
   }
 
@@ -61,8 +96,8 @@ export abstract class EditableFormComponent<T, K> implements OnInit {
   }
 
 
-  protected beforeSaveForm(t: T): T {
-    return t;
+  protected beforeSaveForm(model: T): T {
+    return model;
   }
 
   public saveForm() {
@@ -71,12 +106,23 @@ export abstract class EditableFormComponent<T, K> implements OnInit {
       let q = this.form.value;
       q = this.beforeSaveForm(q);
       this.crudStore.saveElement(q)
-        .subscribe(this.onSaveForm.bind(this)
-        );
+        .subscribe(value => {
+          // maybe with hal call get again ?
+          this.onSaveForm(value);
+        }
+        )
+      ;
     } else {
       this.notifierService.notifyInfo(this.translateService.instant('qcm.form.messages.validation_required'), 1000);
       this.validateAllFormFields(this.form);
     }
+  }
+
+  protected onSaveForm(model) {
+    this.endEdition();
+    this.createForm(model);
+    this.notifierService.notifySuccess(this.translateService.instant('qcm.form.messages.onSaveForm'), 2000);
+    this.save.emit(model.uuid);
   }
 
   public deleteForm() {
@@ -84,15 +130,22 @@ export abstract class EditableFormComponent<T, K> implements OnInit {
       .subscribe(this.onDeleteForm.bind(this));
   }
 
-  protected abstract createForm(): void;
+  protected abstract createForm(model: T): void;
 
-  protected abstract onSaveForm(t: T)  ;
+  protected abstract onDeleteForm(model: T)  ;
 
-  protected abstract onDeleteForm(t: T)  ;
+  protected onStartEdition() {
+  }
 
-// onChanges(): void {
+  protected onEndEdition() {
+  }
+
+  // onChanges(): void {
 //   this.questionForm.valueChanges.subscribe(val => {
 //     console.log(val);
 //   });
 // }
+
 }
+
+

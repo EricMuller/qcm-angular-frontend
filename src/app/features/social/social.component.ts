@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {User} from '@app/core/auth/user.model';
+import {Account} from '@app/core/auth/account.model';
 
 @Component({
   selector: 'app-social',
@@ -27,7 +27,7 @@ export class SocialComponent {
   // pieChartData: number[] = [300, 500, 100];
   // pieChartType = 'pie';
 
-  public user: User;
+  public user: Account;
 
   constructor(private route: ActivatedRoute) {
     this.route.data.subscribe(data => {

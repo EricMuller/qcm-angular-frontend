@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Question} from '@app/features/qcm-rest-api/model/question.model';
 import {Questionnaire} from '@app/features/qcm-rest-api/model/questionnaire.model';
-import {Page} from '@app/features/qcm-rest-api/services/page';
+import {PagedModel} from '@app/features/qcm-rest-api/services/pagedModel';
 import {QuestionnaireService} from '@app/features/qcm-rest-api/services/questionnaire.service';
 import {SelectStoreAdapter} from '@app/features/stores/selection-store';
 import {CriteriaStore, CrudStore} from '@app/features/stores/store-api';
@@ -33,7 +33,7 @@ export class QuestionnaireListStore extends SelectStoreAdapter<Questionnaire>
     return this.questionnaireService.getQuestionnaireByUuid(uuid);
   }
 
-  getPage(page?: number, size?: number, sort?: string): Observable<Page<Questionnaire>> {
+  getPage(page?: number, size?: number, sort?: string): Observable<PagedModel<Questionnaire>> {
     const obs = this.questionnaireService.getQuestionnaires(page, size, sort);
     obs.subscribe(
       p => {
@@ -64,7 +64,7 @@ export class QuestionnaireListStore extends SelectStoreAdapter<Questionnaire>
   saveElement(element: Questionnaire): Observable<Questionnaire> {
 
     if (element.uuid) {
-      return this.questionnaireService.putQuestionnaire(element);
+      return this.questionnaireService.putQuestionnaire(element.uuid, element);
     } else {
       return this.questionnaireService.postQuestionnaire(element);
     }
@@ -75,7 +75,7 @@ export class QuestionnaireListStore extends SelectStoreAdapter<Questionnaire>
   }
 
 
-  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<Page<Questionnaire>> {
+  getPageByCriteria(criteria: Criteria[], page?: number, size?: number, sort?: string): Observable<PagedModel<Questionnaire>> {
     console.log(criteria);
     const obs = this.questionnaireService.getQuestionnairesByCriteria(criteria, page, size, sort);
     obs.subscribe(
