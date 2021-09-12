@@ -2,7 +2,8 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 import {HttpClient} from '@angular/common/http';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {RippleGlobalOptions} from '@angular/material';
+import {RippleGlobalOptions} from '@angular/material/core';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {AppRoutingModule} from '@app/app-routing.module';

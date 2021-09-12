@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray, FormGroup} from '@angular/forms';
-import {MatChipInputEvent, MatDialog, MatDialogConfig} from '@angular/material';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '@app/app/state/app-state.service';
 import {SetCurrentQuestionAction} from '@app/app/state/navigation/navigation-actions';

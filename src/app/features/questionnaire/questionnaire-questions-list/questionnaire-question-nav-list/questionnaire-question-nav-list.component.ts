@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+
 import {Router} from '@angular/router';
-import {Question, QuestionnaireQuestion} from '@app/features/qcm-rest-api/model/question.model';
+import {QuestionnaireQuestion} from '@app/features/qcm-rest-api/model/question.model';
 import {Tag} from '@app/features/qcm-rest-api/model/tag.model';
-import {QuestionDialogComponent} from '@app/features/question/question-dialog/question-dialog.component';
 import {QuestionnaireQuestionDialogComponent} from '@app/features/questionnaire/questionnaire-question-dialog/questionnaire-question-dialog.component';
 import {QuestionnaireQuestionListStore} from '@app/features/stores/questionnaire-question-list-store.service';
 

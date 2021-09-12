@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatChip} from '@angular/material';
+import {MatChip} from '@angular/material/chips';
+
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Questionnaire} from '@app/features/qcm-rest-api/model/questionnaire.model';
 import {Letter} from '@app/features/tag/tag-select/Letter';

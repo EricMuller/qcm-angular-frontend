@@ -1,7 +1,7 @@
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
-import {MatSnackBarModule} from '@angular/material';
-import {AppGuard} from '@app/shared/auth/app-guard.service';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 import {TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CookieService} from 'ngx-cookie-service';

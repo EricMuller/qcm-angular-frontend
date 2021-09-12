@@ -1,5 +1,6 @@
 import {AfterContentInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
+
 import {Logger} from '@app/core/loggers/logger.service';
 import {Criteria} from '@app/features/qcm-rest-api/model/criteria';
 import {Entity} from '@app/features/qcm-rest-api/model/entity';

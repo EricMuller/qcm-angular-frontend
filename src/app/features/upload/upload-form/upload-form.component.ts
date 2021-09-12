@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+
 import {ActivatedRoute, Router} from '@angular/router';
 import {NotifierService} from '@app/core/notifications/simple-notifier.service';
 import {CategoryDialogComponent} from '@app/features/category/category-dialog/category-dialog.component';

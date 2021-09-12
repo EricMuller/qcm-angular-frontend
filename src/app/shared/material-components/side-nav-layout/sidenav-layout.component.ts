@@ -1,6 +1,7 @@
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatSidenav} from '@angular/material';
+import {MatSidenav} from '@angular/material/sidenav';
+
 import {NavigationExtras, Router} from '@angular/router';
 import {AppState} from '@app/app/state/app-state.service';
 import {OpenAction} from '@app/app/state/navigation/navigation-actions';

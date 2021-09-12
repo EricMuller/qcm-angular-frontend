@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray} from '@angular/forms';
-import {MatChipInputEvent, MatDialog, MatDialogConfig} from '@angular/material';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+
 import {ActivatedRoute, Router} from '@angular/router';
 import {SetCurrentQuestionnaireAction} from '@app/app/state/navigation/navigation-actions';
 import {NotifierService} from '@app/core/notifications/simple-notifier.service';

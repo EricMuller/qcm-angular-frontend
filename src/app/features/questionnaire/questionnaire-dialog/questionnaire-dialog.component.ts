@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+
 import {QuestionnaireService} from '@app/features/qcm-rest-api/services/questionnaire.service';
 
 
@@ -18,7 +19,7 @@ export class QuestionnaireDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.questionnaire = Object.assign({}, this.data['questionnaire']);
+    this.questionnaire = Object.assign({}, this.data.questionnaire);
   }
 
   public closeDialog() {
