@@ -50,7 +50,7 @@
     "bootstrap": "^4.6.0",
     "brace": "^0.11.1",
     "core-js": "^3.17.3",
-    "css-loader": "^3.6.0",
+    "css-loader": "^4.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
@@ -68,7 +68,7 @@
     "path": "^0.12.7",
     "popper.js": "^1.16.1",
     "rxjs": "^6.6.7",
-    "style-loader": "0.19.1",
+    "style-loader": "1.1.4",
     "tslib": "^1.14.1",
     "underscore": "^1.13.1",
     "zone.js": "~0.10.3"
