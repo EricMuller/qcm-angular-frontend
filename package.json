@@ -44,7 +44,7 @@
     "@ngxs/devtools-plugin": "^3.7.2",
     "@ngxs/logger-plugin": "^3.7.2",
     "@ngxs/store": "^3.7.2",
-    "@swimlane/ngx-charts": "^13.0.4",
+    "@swimlane/ngx-charts": "^20.1.2",
     "@types/underscore": "1.8.1",
     "ajv": "^6.12.6",
     "bootstrap": "^4.6.0",
